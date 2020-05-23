@@ -36,6 +36,10 @@ export class UserService {
     return this.usersRepository.findOne({ email })
   }
 
+  async findByName(userName: string): Promise<User> {
+    return this.usersRepository.findOne({ userName })
+  }
+
   async update(id: string, data): Promise<void> {
     this.usersRepository.update(id, data)
   }

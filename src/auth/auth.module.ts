@@ -9,12 +9,14 @@ import { JwtStrategyRefresh } from './strategies/jwt.strategy-refresh'
 import { configModule } from '../configure.root'
 
 import { UserModule } from '../user/user.module'
+import { MailModule } from '../mail/mail.module'
 
 @Module({
   imports: [
     configModule,
     PassportModule.register({ defaultStrategy: 'access-jwt' }),
-    UserModule
+    UserModule,
+    MailModule
   ],
   providers: [AuthService, JwtStrategyAccess, JwtStrategyRefresh],
   controllers: [AuthController]

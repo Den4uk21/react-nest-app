@@ -1,4 +1,4 @@
-import { Controller, Post, Get, UseGuards, Body, Request } from '@nestjs/common'
+import { Controller, Post, Get, UseGuards, Body, Request, Put, Query } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AuthGuard } from '@nestjs/passport'
 
@@ -18,12 +18,12 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async signUp(@Body() createUserDto: CreateUserDto): Promise<void> {
+  async register(@Body() createUserDto: CreateUserDto): Promise<void> {
     await this.authService.register(createUserDto)
   }
 
   @Post('login')
-  async signIn(@Body() checkUserDto: CheckUserDto): Promise<ITokens> {
+  async login(@Body() checkUserDto: CheckUserDto): Promise<ITokens> {
     return this.authService.login(checkUserDto)
   }
 
@@ -31,5 +31,10 @@ export class AuthController {
   @UseGuards(AuthGuard('refresh-jwt'))
   async updateTokens(@Request() req): Promise<ITokens> {
     return this.authService.updateTokens(req.user.userId)
+  }
+
+  @Put('confirm')
+  async confirmAccount(@Query('token') token: string): Promise<void> {
+    await this.authService.confirmAccount(token)
   }
 }
