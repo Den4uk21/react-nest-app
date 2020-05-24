@@ -41,6 +41,6 @@ export class UserService {
   }
 
   async update(id: string, data): Promise<void> {
-    this.usersRepository.update(id, data)
+    await this.usersRepository.update(id, data)
   }
 }

@@ -8,7 +8,7 @@ export class User {
   id: string
 
   @Column({ type: 'text', default: null })
-  avatarId: string
+  avatarId: string | null
 
   @Column({ type: 'text', unique: true })
   userName: string
@@ -18,6 +18,12 @@ export class User {
 
   @Column({ type: 'text', enum: genderEnum })
   gender: string
+
+  @Column({ type: 'text', default: null })
+  motto: string | null
+
+  @Column({ type: 'text', default: null })
+  bio: string | null
 
   @Column({ type: 'text', enum: statusEnum, default: statusEnum.pending })
   status: string

@@ -16,7 +16,6 @@ import { statusEnum } from '../user/enums/status.enum'
 
 @Injectable()
 export class AuthService {
-  private readonly clientAppUrl: string
   private readonly accessTokenTime: number
 
   constructor(
@@ -24,7 +23,6 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly mailService: MailService
   ) {
-    this.clientAppUrl = this.configService.get<string>('FE_APP_URL')
     this.accessTokenTime = 10 * 60 * 1000 // 10m
   }
 
@@ -81,16 +79,12 @@ export class AuthService {
   private async sendConfirmation(user: User): Promise<void> {
     const tokenPayload = {
       userId: user.id,
-      status: user.status,
     }
-
-    const confirmToken = await this.generateConfirmToken(tokenPayload)
-    const confirmLink = `${this.clientAppUrl}/auth/confirm?token=${confirmToken}`
 
     await this.mailService.sendConfirmation({
       email: user.email,
-      nickName: user.userName,
-      confirmLink
+      userName: user.userName,
+      tokenPayload
     })
   }
 
@@ -100,9 +94,5 @@ export class AuthService {
 
   private async generateRefreshToken(data: ITokensData, options?: jwt.SignOptions): Promise<string> {
     return jwt.sign(data, this.configService.get<string>('JWT_REFRESH_SECRET'), { expiresIn: '24h', ...options })
-  }
-
-  private async generateConfirmToken(data, options?: jwt.SignOptions): Promise<string> {
-    return jwt.sign(data, this.configService.get<string>('JWT_CONFIRM_SECRET'), { expiresIn: '24h', ...options })
   }
 }

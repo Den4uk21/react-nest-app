@@ -5,6 +5,7 @@ import { configModule } from './configure.root'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
 import { MailModule } from './mail/mail.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { MailModule } from './mail/mail.module';
     AuthModule,
     UserModule,
     MailModule,
+    ProfileModule,
   ]
 })
 export class AppModule {}
