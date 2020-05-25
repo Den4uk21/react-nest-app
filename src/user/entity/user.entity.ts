@@ -1,23 +1,20 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { statusEnum } from '../enums/status.enum'
-import { genderEnum } from '../enums/gender.enum'
+import { Question } from '../../question/entity/question.entity'
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ type: 'text', default: null })
-  avatarId: string | null
+  @Column({ type: 'text', default: 'avatars/default-avatar.jpg' })
+  avatarId: string
 
   @Column({ type: 'text', unique: true })
   userName: string
 
   @Column({ type: 'text', unique: true })
   email: string
-
-  @Column({ type: 'text', enum: genderEnum })
-  gender: string
 
   @Column({ type: 'text', default: null })
   motto: string | null
@@ -30,4 +27,7 @@ export class User {
 
   @Column({ type: 'text' })
   password: string
+
+  @OneToMany(type => Question, question => question.user)
+  questions: Question[]
 }

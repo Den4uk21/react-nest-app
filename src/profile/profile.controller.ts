@@ -1,4 +1,5 @@
-import { Controller, Put, Request, Body, UseGuards, Post, Query, Get, Param } from '@nestjs/common'
+import { Controller, Put, Request, Body, UseGuards, Post, Query, Get, Param, UseInterceptors, UploadedFile } from '@nestjs/common'
+import { FileInterceptor } from '@nestjs/platform-express'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
@@ -27,6 +28,13 @@ export class ProfileController {
     await this.profileService.updateProfile(req.user.userId, updateProfileDto)
   }
 
+  @UseGuards(AuthGuard())
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('avatar', { dest: './src/user/avatars' }))
+  async uploadAvatar(@UploadedFile() file, @Request() req): Promise<void> {
+    await this.profileService.uploadAvatar(req.user.userId, file.path)
+  }
+
   @Put('change-email')
   async changeEmail(@Query('token') token: string, @Body() changeEmailDto: EmailProfileDto): Promise<void> {
     await this.profileService.changeEmail(token, changeEmailDto)
@@ -38,7 +46,6 @@ export class ProfileController {
     await this.profileService.sendChangeEmail(req.user.userId)
   }
 
-  @UseGuards()
   @Put('change-password')
   async changePassword(@Query('token') token: string, @Body() changePassDto: ChangePassDto): Promise<void> {
     await this.profileService.changePassword(token, changePassDto)
