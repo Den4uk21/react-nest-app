@@ -4,7 +4,7 @@ import { Form, Input, Button } from 'antd'
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 
 import { ILogin } from '../../../types/auth/types'
-import './styles.sass'
+import '../styles.sass'
 
 interface LoginFormProps {
   onSubmitValues: (values: ILogin) => void
@@ -51,7 +51,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmitValues }) => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Sign in
         </Button>
-        Or <Link to="/register">Register now!</Link>
+        Or <Link to="/register" className="link">Register now!</Link>
       </Form.Item>
     </Form>
   )

@@ -4,7 +4,7 @@ import { Form, Input, Button, message } from 'antd'
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons'
 
 import { IRegister } from '../../../types/auth/types'
-import './styles.sass'
+import '../styles.sass'
 
 interface RegisterFormProps {
   onSubmitValues: (values: IRegister) => void
@@ -70,10 +70,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitValues }) =>
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="register-form-button ">
+        <Button htmlType="submit" className="register-form-button ">
           Sign Up
         </Button>
-        Or <Link to="/login">Login now!</Link>
+        Or <Link to="/login" className="link">Login now!</Link>
       </Form.Item>
     </Form>
   )

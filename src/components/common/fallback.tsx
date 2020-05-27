@@ -9,7 +9,7 @@ export const Fallback: React.FC = () => {
     
     return (
         <div className="router-lazy-spin">
-            <Spin indicator={antIcon} tip="Loading..." />
+            <Spin indicator={antIcon} tip="Loading..." size="large" style={{color: '#262626'}} />
         </div>
     )
 }

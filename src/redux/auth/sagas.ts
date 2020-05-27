@@ -1,4 +1,5 @@
-import { call, takeLatest } from 'redux-saga/effects'
+import { call, takeLatest, put } from 'redux-saga/effects'
+import { push } from 'react-router-redux'
 import { Action } from 'redux-actions'
 import { message } from 'antd'
 
@@ -11,9 +12,9 @@ import { saveTokens } from '../assets/authApi'
 function* SignUpWorker(action: Action<IRegister>) {
   try {
     const { status, data } = yield call(signUpApi, action.payload)
-
+    console.log(status, data)
     if(status === 201) {
-      yield window.location.replace('/auth/success')
+      yield put(push('/auth/success'))
     }else {
       message.error(data.message)
     }
@@ -47,8 +48,7 @@ function* ConfirmWorker(action: Action<string>) {
       message.error(data.message)
     }
 
-    console.log(status, data)
-
+    yield put(push('/'))
   }catch(err) {
     message.error('Failed to Confirm Account!')
     console.log(err)

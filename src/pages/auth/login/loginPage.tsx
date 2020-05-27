@@ -3,7 +3,7 @@ import { LoginFormContainer } from '../../../containers/auth/login/loginFormCont
 
 const LoginPage: React.FC = () => {
   return (
-    <main className="login-page" >
+    <main className="login-page">
       <LoginFormContainer />
     </main>
   )

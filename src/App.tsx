@@ -5,16 +5,19 @@ import { history } from './redux/store/store'
 import { Fallback } from './components/common/fallback'
 
 import 'antd/dist/antd.css'
+import { Header } from './components/header/header'
 
 const LoginPage = React.lazy(() => import('./pages/auth/login/loginPage'))
 const RegisterPage = React.lazy(() => import('./pages/auth/register/registerPage'))
 const RegisterSuccessPage = React.lazy(() => import('./pages/auth/register/registerSuccessPage'))
+const ConfirmPage = React.lazy(() => import('./pages/auth/confirm/confirmPage'))
 
 const App: React.FC = () => {
   const isAuth = localStorage.auth_tokens
 
   return (
     <Router history={history}>
+      <Header isAuth={isAuth} />
       <Suspense fallback={<Fallback />}>
         <Switch>
           {
@@ -27,6 +30,7 @@ const App: React.FC = () => {
                   <Route exact path="/login" component={LoginPage} />
                   <Route exact path="/register" component={RegisterPage} />
                   <Route exact path="/auth/success" component={RegisterSuccessPage} />
+                  <Route exact path="/auth/confirm" component={ConfirmPage} />
                 </>
               )
           }

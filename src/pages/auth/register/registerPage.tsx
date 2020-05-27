@@ -3,7 +3,7 @@ import { RegisterFormContainer } from '../../../containers/auth/register/registe
 
 const RegisterPage: React.FC = () => {
   return (
-    <main className="register-page" >
+    <main className="register-page">
       <RegisterFormContainer />
     </main>
   )
