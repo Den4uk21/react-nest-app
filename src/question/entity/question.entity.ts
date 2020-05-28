@@ -12,11 +12,11 @@ export class Question {
   @Column({ type: 'text' })
   descriptions: string
 
-  @Column({ type: 'text', array: true, default: [] })
-  category: string[]
+  @Column({ type: 'text', array: true })
+  categories: string[]
 
-  @Column({ type: 'bigint', default: Date.now() })
-  date: Date
+  @Column({ type: 'text', default: new Date().toLocaleDateString() })
+  date: string
 
   @ManyToOne(type => User, user => user.questions)
   user: User

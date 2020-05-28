@@ -16,5 +16,5 @@ export class CreateQuestionDto {
   @ApiProperty({ enum: categoriesEnum })
   @IsArray()
   @IsNotEmpty()
-  readonly category: string[]
+  readonly categories: string[]
 }

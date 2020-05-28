@@ -12,6 +12,7 @@ import { CreateUserDto } from '../user/dto/create-user.dto'
 import { CheckUserDto } from '../user/dto/check-user.dto'
 
 import { ITokens, ITokensData } from './interfaces/auth-tokens.interface'
+import { IResponse } from './interfaces/response.interface'
 import { statusEnum } from '../user/enums/status.enum'
 
 @Injectable()
@@ -26,7 +27,7 @@ export class AuthService {
     this.accessTokenTime = 10 * 60 * 1000 // 10m
   }
 
-  async register(createUserDto: CreateUserDto): Promise<void> {
+  async register(createUserDto: CreateUserDto): Promise<IResponse> {
     const isExistsEmail = await this.userService.findByEmail(createUserDto.email)
     const isExistsName = await this.userService.findByName(createUserDto.userName)
     
@@ -34,6 +35,8 @@ export class AuthService {
 
     const user = await this.userService.create(createUserDto)
     await this.sendConfirmation(user)
+
+    return { success: true }
   }
 
   async login(checkUserDto: CheckUserDto): Promise<ITokens> {
@@ -60,7 +63,7 @@ export class AuthService {
     }
   }
 
-  async confirmAccount(token: string) {
+  async confirmAccount(token: string): Promise<IResponse> {
     await jwt.verify(token, this.configService.get<string>('JWT_CONFIRM_SECRET'), async (err, payload: ITokensData) => {
       if(err) {
         throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST)
@@ -74,6 +77,8 @@ export class AuthService {
         await this.userService.update(payload.userId, { status: statusEnum.active })
       }
     })
+    
+    return { success: true }
   }
 
   private async sendConfirmation(user: User): Promise<void> {

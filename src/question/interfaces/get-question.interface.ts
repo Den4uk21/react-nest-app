@@ -2,8 +2,8 @@ export interface IGetQuestion {
   id: string,
   title: string,
   descriptions: string,
-  category: string[],
-  date: Date,
+  categories: string[],
+  date: string,
   userName: string,
   avatarUrl: string
 }

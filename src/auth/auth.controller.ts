@@ -8,6 +8,7 @@ import { CreateUserDto } from '../user/dto/create-user.dto'
 import { CheckUserDto } from '../user/dto/check-user.dto'
 
 import { ITokens } from './interfaces/auth-tokens.interface'
+import { IResponse } from './interfaces/response.interface'
 
 @ApiTags('auth')
 @ApiBearerAuth()
@@ -18,8 +19,8 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto): Promise<void> {
-    await this.authService.register(createUserDto)
+  async register(@Body() createUserDto: CreateUserDto): Promise<IResponse> {
+    return this.authService.register(createUserDto)
   }
 
   @Post('login')
@@ -34,7 +35,7 @@ export class AuthController {
   }
 
   @Put('confirm')
-  async confirmAccount(@Query('token') token: string): Promise<void> {
-    await this.authService.confirmAccount(token)
+  async confirmAccount(@Query('token') token: string): Promise<IResponse> {
+    return this.authService.confirmAccount(token)
   }
 }
