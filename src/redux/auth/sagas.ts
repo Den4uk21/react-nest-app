@@ -12,7 +12,7 @@ import { saveTokens } from '../assets/authApi'
 function* SignUpWorker(action: Action<IRegister>) {
   try {
     const { status, data } = yield call(signUpApi, action.payload)
-    console.log(status, data)
+    
     if(status === 201) {
       yield put(push('/auth/success'))
     }else {
@@ -44,11 +44,11 @@ function* ConfirmWorker(action: Action<string>) {
   try {
     const { status, data } = yield call(confirmApi, action.payload)
 
-    if(status !== 200) {
+    if(status === 200) {
+      yield put(push('/')) 
+    }else {
       message.error(data.message)
     }
-
-    yield put(push('/'))
   }catch(err) {
     message.error('Failed to Confirm Account!')
     console.log(err)

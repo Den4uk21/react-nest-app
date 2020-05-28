@@ -1,18 +1,33 @@
-import React, { useEffect } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+import React from 'react'
+import { useLocation} from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { Result, Button } from 'antd'
 
 import { AuthActions } from '../../../redux/auth/actions'
 
-const ConfirmPage: React.FC<RouteComponentProps> = (props) => {
+const ConfirmPage: React.FC = () => {
+  const location = useLocation()
   const dispatch = useDispatch()
   
-  useEffect(() => {
-    dispatch(AuthActions.confirm(props.location.search))
-  })
+  const confirmClick = () => {
+    dispatch(AuthActions.confirm(location.search))
+  }
 
   return (
-    <main className="confirm-page"></main>
+    <Result 
+      status="info"
+      title="Confirm your account!"
+      subTitle="By confirming your account, you get full access to it!"
+      extra={[
+        <Button
+          type="primary"
+          key="console"
+          onClick={confirmClick}
+        >
+          Confirm
+        </Button>
+      ]}
+    />
   )
 }
 
