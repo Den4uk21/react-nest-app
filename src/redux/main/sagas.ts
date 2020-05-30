@@ -1,14 +1,17 @@
 import { call, takeLatest, put } from 'redux-saga/effects'
+import { Action } from 'redux-actions'
 import { message } from 'antd'
 
 import { MainActions } from './actions'
 import { getAllQuestionsApi } from './api'
 
-function* GetAllQuestionsWorker() {
+import { IFilterQuestions } from '../../types/main/types'
+
+function* GetAllQuestionsWorker(action: Action<IFilterQuestions>) {
   try {
-    const { status, data } = yield call(getAllQuestionsApi)
+    const { status, data } = yield call(getAllQuestionsApi, action.payload)
    
-    if(status === 200) {
+    if(status === 201) {
       yield put(MainActions.pushAllQuestions(data))
     }else {
       message.error(data.message)

@@ -11,7 +11,7 @@ export const QuestionContainer: React.FC = () => {
   const questionsList = useSelector((state: IRootReducer) => state.main.questionsList)
 
   useEffect(() => {
-    dispatch(MainActions.getAllQuestions())
+    dispatch(MainActions.getAllQuestions({ type: 'new' }))
   }, [dispatch])
 
   return (

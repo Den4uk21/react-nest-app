@@ -8,3 +8,8 @@ export interface ILinkQuestion {
   categories: string[],
   date: string
 }
+
+export interface IFilterQuestions {
+  type: string,
+  categories?: string[]
+}
