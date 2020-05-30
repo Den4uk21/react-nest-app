@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { statusEnum } from '../enums/status.enum'
 import { Question } from '../../question/entity/question.entity'
+import { Answer } from '../../answer/entity/answer.entity'
 
 @Entity()
 export class User {
@@ -30,4 +31,7 @@ export class User {
 
   @OneToMany(type => Question, question => question.user)
   questions: Question[]
+
+  @OneToMany(type => Answer, answer => answer.user)
+  answer: Answer[]
 }

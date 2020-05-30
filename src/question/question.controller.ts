@@ -1,4 +1,4 @@
-import { Controller, Request, Post, Body, UseGuards, Get, Param, Delete, Put } from '@nestjs/common'
+import { Controller, Request, Post, Body, UseGuards, Get, Param, Delete, Put, Query } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
@@ -7,6 +7,7 @@ import { QuestionService } from './question.service'
 import { Question } from './entity/question.entity'
 
 import { CreateQuestionDto } from './dto/create-question.dto'
+import { FilterQuestionDto } from './dto/filter-question.dto'
 
 import { ILinkQuestion } from './interfaces/link-question.interface'
 import { IGetQuestion } from './interfaces/get-question.interface'
@@ -16,7 +17,7 @@ import { IGetQuestion } from './interfaces/get-question.interface'
 @Controller('questions')
 export class QuestionController {
   constructor(
-    private readonly questionService: QuestionService
+    private readonly questionService: QuestionService,
   ) {}
 
   @UseGuards(AuthGuard())
@@ -25,15 +26,20 @@ export class QuestionController {
     await this.questionService.createQuestion(req.user.userId, createQuestionDto)
   }
 
-  @UseGuards(AuthGuard())
-  @Get('user')
-  async getUserQuestions(@Request() req): Promise<Question[]> {
-    return this.questionService.getUserQuestions(req.user.userId)
+  @Get('count-pages')
+  async getCountPages(): Promise<number> {
+    return this.questionService.getCountPages()
   }
 
-  @Get('all')
-  async getAllQuestions(): Promise<ILinkQuestion[]> {
-    return this.questionService.getAllQuestions()
+  @UseGuards(AuthGuard())
+  @Get('user')
+  async getUserQuestions(@Request() req, @Query('page') page: number): Promise<Question[]> {
+    return this.questionService.getUserQuestions(req.user.userId, page)
+  }
+
+  @Post('all')
+  async getAllQuestions(@Query('page') page: number, @Body() filterQuestionDto: FilterQuestionDto): Promise<ILinkQuestion[]> {
+    return this.questionService.getAllQuestions(page, filterQuestionDto)
   }
 
   @Get(':questionId')

@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, IsNotEmpty, IsArray } from 'class-validator'
-import { categoriesEnum } from '../enums/categories.enum'
 
 export class CreateQuestionDto {
   @ApiProperty()
@@ -13,7 +12,7 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   readonly descriptions: string
 
-  @ApiProperty({ enum: categoriesEnum })
+  @ApiProperty()
   @IsArray()
   @IsNotEmpty()
   readonly categories: string[]

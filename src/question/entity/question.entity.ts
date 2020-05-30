@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm'
 import { User } from '../../user/entity/user.entity'
+import { Answer } from '../../answer/entity/answer.entity'
 
 @Entity()
 export class Question {
@@ -15,9 +16,12 @@ export class Question {
   @Column({ type: 'text', array: true })
   categories: string[]
 
-  @Column({ type: 'text', default: new Date().toLocaleDateString() })
-  date: string
+  @Column({ type: 'bigint', default: Date.now() })
+  date: number
 
   @ManyToOne(type => User, user => user.questions)
   user: User
+
+  @OneToMany(type => Answer, answer => answer.question)
+  answer: Answer[]
 }
