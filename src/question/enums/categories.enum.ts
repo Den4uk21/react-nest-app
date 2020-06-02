@@ -1,5 +1,5 @@
 export enum categoriesEnum {
-  WithoutCategory = 'Without category',
+  All = 'All',
   Math = 'Math',
   Technology = 'Technology'
 }

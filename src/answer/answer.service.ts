@@ -10,6 +10,8 @@ import { UserService } from '../user/user.service'
 import { CreateAnswerDto } from './dto/create-answer.dto'
 import { UpdateAnswerDto } from './dto/update-answer.dto'
 
+import { IResponse } from '../auth/interfaces/response.interface'
+
 @Injectable()
 export class AnswerService {
   constructor(
@@ -22,7 +24,7 @@ export class AnswerService {
     private readonly userService: UserService 
   ) {}
 
-  async createAnswer(userId: string, createAnswerDto: CreateAnswerDto): Promise<void> {
+  async createAnswer(userId: string, createAnswerDto: CreateAnswerDto): Promise<IResponse> {
     const user = await this.userService.findById(userId)
     const question = await this.questionsRepository.findOne(createAnswerDto.questionId)
 
@@ -30,6 +32,8 @@ export class AnswerService {
 
     const answer = await this.answersRepository.create({ answer: createAnswerDto.answer , question, user })
     await this.answersRepository.save(answer)
+
+    return { success: true }
   }
 
   async getAnswers(questionId: string): Promise<Answer[]> {
@@ -40,26 +44,30 @@ export class AnswerService {
     return answer
   }
 
-  async updateAnswer(userId: string, answerId: string, updateAnswerDto: UpdateAnswerDto): Promise<void> {
+  async updateAnswer(userId: string, answerId: string, updateAnswerDto: UpdateAnswerDto): Promise<IResponse> {
     const answer = await this.answersRepository.findOne(answerId, { relations: ['user'] })
     if(userId !== answer.user.id) throw new HttpException('Forbidden!', HttpStatus.FORBIDDEN)
 
     await this.answersRepository.update(answerId, updateAnswerDto)
+    return { success: true }
   }
 
-  async deleteAnswer(userId: string, answerId: string): Promise<void> {
+  async deleteAnswer(userId: string, answerId: string): Promise<IResponse> {
     const answer = await this.answersRepository.findOne(answerId, { relations: ['user'] })
     if(userId !== answer.user.id) throw new HttpException('Forbidden!', HttpStatus.FORBIDDEN)
 
     await this.answersRepository.delete(answer)
+    return { success: true }
   }
 
-  async isAnswer(userId: string, questionId: string, answerId: string, ) {
+  async isAnswer(userId: string, questionId: string, answerId: string): Promise<IResponse> {
     const user = await this.userService.findById(userId)
     const question = await this.questionsRepository.findOne(questionId, { relations: ['user'] })
     const answer = await this.answersRepository.findOne(answerId)
 
     if(user.id !== question.user.id) throw new HttpException('Forbidden!', HttpStatus.FORBIDDEN)
     await this.answersRepository.update(answerId, { isAnswer: !answer.isAnswer })
+
+    return { success: true }
   }
 }

@@ -45,7 +45,7 @@ export class MailService {
     })
   }
 
-  async sendChangeEmail(mailData: ISendConfirmData) {
+  async sendChangeEmail(mailData: ISendConfirmData): Promise<void> {
     const { email, userName, tokenPayload } = mailData
 
     const confirmToken = await this.generateConfirmToken(tokenPayload)
@@ -62,7 +62,7 @@ export class MailService {
     })
   }
 
-  async sendChangePass(mailData: ISendConfirmData) {
+  async sendChangePass(mailData: ISendConfirmData): Promise<void> {
     const { email, userName, tokenPayload } = mailData
 
     const confirmToken = await this.generateConfirmToken(tokenPayload)

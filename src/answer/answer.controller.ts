@@ -9,6 +9,8 @@ import { Answer } from './entity/answer.entity'
 import { CreateAnswerDto } from './dto/create-answer.dto'
 import { UpdateAnswerDto } from './dto/update-answer.dto'
 
+import { IResponse } from '../auth/interfaces/response.interface'
+
 @ApiTags('answer')
 @ApiBearerAuth()
 @Controller('answers')
@@ -19,8 +21,8 @@ export class AnswerController {
 
   @UseGuards(AuthGuard())
   @Post('new')
-  async createAnswer(@Request() req, @Body() createAnswerDto: CreateAnswerDto): Promise<void> {
-    await this.answerService.createAnswer(req.user.userId, createAnswerDto)
+  async createAnswer(@Request() req, @Body() createAnswerDto: CreateAnswerDto): Promise<IResponse> {
+    return this.answerService.createAnswer(req.user.userId, createAnswerDto)
   }
 
   @Get(':questionId')
@@ -30,19 +32,19 @@ export class AnswerController {
 
   @UseGuards(AuthGuard())
   @Put(':answerId')
-  async updateAnswer(@Request() req, @Param('answerId') answerId: string, @Body() updateAnswerDto: UpdateAnswerDto): Promise<void> {
-    await this.answerService.updateAnswer(req.user.userId, answerId, updateAnswerDto)
+  async updateAnswer(@Request() req, @Param('answerId') answerId: string, @Body() updateAnswerDto: UpdateAnswerDto): Promise<IResponse> {
+    return this.answerService.updateAnswer(req.user.userId, answerId, updateAnswerDto)
   }
 
   @UseGuards(AuthGuard())
   @Delete(':answerId')
-  async deleteAnswer(@Request() req, @Param('answerId') answerId: string): Promise<void> {
-    await this.answerService.deleteAnswer(req.user.userId, answerId)
+  async deleteAnswer(@Request() req, @Param('answerId') answerId: string): Promise<IResponse> {
+    return this.answerService.deleteAnswer(req.user.userId, answerId)
   }
 
   @UseGuards(AuthGuard())
   @Post(':questionId/is-answer/:answerId')
-  async isAnswer(@Request() req, @Param('questionId') questionId: string, @Param('answerId') answerId: string): Promise<void> {
-    await this.answerService.isAnswer(req.user.userId, questionId, answerId)
+  async isAnswer(@Request() req, @Param('questionId') questionId: string, @Param('answerId') answerId: string): Promise<IResponse> {
+    return this.answerService.isAnswer(req.user.userId, questionId, answerId)
   }
 }

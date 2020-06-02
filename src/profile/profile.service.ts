@@ -14,6 +14,7 @@ import { ChangePassDto } from './dto/change-pass.dto'
 
 import { IGetProfile } from './interfaces/get-profile.interface'
 import { ITokensData } from '../auth/interfaces/auth-tokens.interface'
+import { IResponse } from '../auth/interfaces/response.interface'
 
 @Injectable()
 export class ProfileService {
@@ -36,14 +37,15 @@ export class ProfileService {
     return { avatarUrl: this.getAvatar(avatarId), ...profile }
   }
 
-  async updateProfile(userId: string, updateProfileDto: UpdateProfileDto): Promise<void> {
+  async updateProfile(userId: string, updateProfileDto: UpdateProfileDto): Promise<IResponse> {
     const isValidUser = await this.userService.findByName(updateProfileDto.userName)
     if(isValidUser && userId !== isValidUser.id) throw new HttpException('Name is busy', HttpStatus.BAD_REQUEST)
 
     await this.userService.update(userId, updateProfileDto)
+    return { success: true }
   }
 
-  async uploadAvatar(userId: string, file: string): Promise<void> {
+  async uploadAvatar(userId: string, file: string): Promise<IResponse> {
     const user = await this.userService.findById(userId)
     if(user.avatarId) {
       cloudinary.v2.uploader.destroy(user.avatarId)
@@ -61,13 +63,15 @@ export class ProfileService {
     fs.unlink(file, (err) => {
       console.log(err)
     })
+
+    return { success: true }
   }
 
   getAvatar(avatarId: string, options?): string {
     return cloudinary.v2.url(avatarId, { ...options, width: 100, height: 100, crop: 'scale', secure: true, radius: 20 })
   }
 
-  async changeEmail(token: string, changeEmailDto: EmailProfileDto) {
+  async changeEmail(token: string, changeEmailDto: EmailProfileDto): Promise<IResponse> {
     await jwt.verify(token, this.configService.get<string>('JWT_CONFIRM_SECRET'), async (err, payload: ITokensData) => {
       if(err) {
         throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST)
@@ -75,9 +79,11 @@ export class ProfileService {
         await this.userService.update(payload.userId, changeEmailDto)
       }
     })
+
+    return { success: true }
   }
 
-  async sendChangeEmail(userId: string) {
+  async sendChangeEmail(userId: string): Promise<IResponse> {
     const user = await this.userService.findById(userId)
     const tokenPayload = { userId: user.id }
 
@@ -86,9 +92,11 @@ export class ProfileService {
       userName: user.userName,
       tokenPayload
     })
+
+    return { success: true }
   }
 
-  async changePassword(token: string, changePassDto: ChangePassDto) {
+  async changePassword(token: string, changePassDto: ChangePassDto): Promise<IResponse> {
     await jwt.verify(token, this.configService.get<string>('JWT_CONFIRM_SECRET'), async (err, payload: ITokensData) => {
       if(err) {
         throw new HttpException('Invalid token', HttpStatus.BAD_REQUEST)
@@ -97,9 +105,11 @@ export class ProfileService {
         await this.userService.update(payload.userId, { password: hash })
       }
     })
+
+    return { success: true }
   }
 
-  async sendChangePass(email: string) {
+  async sendChangePass(email: string): Promise<IResponse> {
     const user = await this.userService.findByEmail(email)
     if(!user) throw new HttpException('Email not found!', HttpStatus.NOT_FOUND)
 
@@ -110,5 +120,7 @@ export class ProfileService {
       userName: user.userName,
       tokenPayload
     })
+
+    return { success: true }
   }
 }

@@ -4,3 +4,8 @@ export interface ILinkQuestion {
   categories: string[],
   date: string
 }
+
+export interface ILinkQuestionResponse {
+  questionsList: ILinkQuestion[],
+  amount: number
+}

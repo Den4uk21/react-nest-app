@@ -4,12 +4,10 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { QuestionService } from './question.service'
 
-import { Question } from './entity/question.entity'
-
 import { CreateQuestionDto } from './dto/create-question.dto'
 import { FilterQuestionDto } from './dto/filter-question.dto'
 
-import { ILinkQuestion } from './interfaces/link-question.interface'
+import { ILinkQuestionResponse } from './interfaces/link-question.interface'
 import { IGetQuestion } from './interfaces/get-question.interface'
 
 @ApiTags('question')
@@ -26,19 +24,20 @@ export class QuestionController {
     await this.questionService.createQuestion(req.user.userId, createQuestionDto)
   }
 
-  @Get('count-pages')
-  async getCountPages(): Promise<number> {
-    return this.questionService.getCountPages()
+  @UseGuards(AuthGuard())
+  @Get('user/no-answers')
+  async getUserQuestionsNoAnswers(@Request() req, @Query('page') page: number): Promise<ILinkQuestionResponse> {
+    return this.questionService.getUserQuestionsNoAnswers(req.user.userId, page)
   }
 
   @UseGuards(AuthGuard())
-  @Get('user')
-  async getUserQuestions(@Request() req, @Query('page') page: number): Promise<Question[]> {
-    return this.questionService.getUserQuestions(req.user.userId, page)
+  @Get('user/with-answers')
+  async getUserQuestionsWithAnswers(@Request() req, @Query('page') page: number): Promise<ILinkQuestionResponse> {
+    return this.questionService.getUserQuestionsWithAnswers(req.user.userId, page)
   }
 
   @Post('all')
-  async getAllQuestions(@Query('page') page: number, @Body() filterQuestionDto: FilterQuestionDto): Promise<ILinkQuestion[]> {
+  async getAllQuestions(@Query('page') page: number, @Body() filterQuestionDto: FilterQuestionDto): Promise<ILinkQuestionResponse> {
     return this.questionService.getAllQuestions(page, filterQuestionDto)
   }
 
