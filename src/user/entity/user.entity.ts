@@ -33,5 +33,5 @@ export class User {
   questions: Question[]
 
   @OneToMany(type => Answer, answer => answer.user)
-  answer: Answer[]
+  answers: Answer[]
 }

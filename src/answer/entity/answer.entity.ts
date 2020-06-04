@@ -16,9 +16,9 @@ export class Answer {
   @Column({ type: 'bigint', default: Date.now() })
   date: number
 
-  @ManyToOne(type => Question, question => question.answer)
+  @ManyToOne(type => Question, question => question.answers)
   question: Question
 
-  @ManyToOne(type => User, user => user.answer)
+  @ManyToOne(type => User, user => user.answers)
   user: User
 }

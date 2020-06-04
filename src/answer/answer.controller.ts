@@ -4,12 +4,11 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { AnswerService } from './answer.service'
 
-import { Answer } from './entity/answer.entity'
-
 import { CreateAnswerDto } from './dto/create-answer.dto'
 import { UpdateAnswerDto } from './dto/update-answer.dto'
 
 import { IResponse } from '../auth/interfaces/response.interface'
+import { IGetAnswer } from './interfaces/get-answers.interface'
 
 @ApiTags('answer')
 @ApiBearerAuth()
@@ -26,7 +25,7 @@ export class AnswerController {
   }
 
   @Get(':questionId')
-  async getAnswers(@Param('questionId') questionId: string): Promise<Answer[]> {
+  async getAnswers(@Param('questionId') questionId: string): Promise<IGetAnswer[]> {
     return this.answerService.getAnswers(questionId)
   }
 
@@ -43,7 +42,7 @@ export class AnswerController {
   }
 
   @UseGuards(AuthGuard())
-  @Post(':questionId/is-answer/:answerId')
+  @Put(':questionId/is-answer/:answerId')
   async isAnswer(@Request() req, @Param('questionId') questionId: string, @Param('answerId') answerId: string): Promise<IResponse> {
     return this.answerService.isAnswer(req.user.userId, questionId, answerId)
   }

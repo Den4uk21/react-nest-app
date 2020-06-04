@@ -9,6 +9,7 @@ import { FilterQuestionDto } from './dto/filter-question.dto'
 
 import { ILinkQuestionResponse } from './interfaces/link-question.interface'
 import { IGetQuestion } from './interfaces/get-question.interface'
+import { IResponse } from '../auth/interfaces/response.interface'
 
 @ApiTags('question')
 @ApiBearerAuth()
@@ -20,8 +21,8 @@ export class QuestionController {
 
   @UseGuards(AuthGuard())
   @Post('new')
-  async createQuestion(@Request() req, @Body() createQuestionDto: CreateQuestionDto): Promise<void> {
-    await this.questionService.createQuestion(req.user.userId, createQuestionDto)
+  async createQuestion(@Request() req, @Body() createQuestionDto: CreateQuestionDto): Promise<IResponse> {
+    return this.questionService.createQuestion(req.user.userId, createQuestionDto)
   }
 
   @UseGuards(AuthGuard())
@@ -48,13 +49,13 @@ export class QuestionController {
 
   @UseGuards(AuthGuard())
   @Put(':questionId')
-  async updateQuestion(@Request() req, @Param('questionId') questionId: string, @Body() updateQuestionDto: CreateQuestionDto): Promise<void> {
-    await this.questionService.updateQuestion(req.user.userId, questionId, updateQuestionDto)
+  async updateQuestion(@Request() req, @Param('questionId') questionId: string, @Body() updateQuestionDto: CreateQuestionDto): Promise<IResponse> {
+    return this.questionService.updateQuestion(req.user.userId, questionId, updateQuestionDto)
   }
 
   @UseGuards(AuthGuard())
   @Delete(':questionId')
-  async deleteQuestion(@Request() req, @Param('questionId') questionId: string): Promise<void> {
-    await this.questionService.deleteQuestion(req.user.userId, questionId)
+  async deleteQuestion(@Request() req, @Param('questionId') questionId: string): Promise<IResponse> {
+    return this.questionService.deleteQuestion(req.user.userId, questionId)
   }
 }

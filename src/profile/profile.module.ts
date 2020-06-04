@@ -14,7 +14,6 @@ import { MailModule } from '../mail/mail.module'
     MailModule
   ],
   providers: [ProfileService],
-  controllers: [ProfileController],
-  exports: [ProfileService]
+  controllers: [ProfileController]
 })
 export class ProfileModule {}

@@ -23,5 +23,5 @@ export class Question {
   user: User
 
   @OneToMany(type => Answer, answer => answer.question)
-  answer: Answer[]
+  answers: Answer[]
 }

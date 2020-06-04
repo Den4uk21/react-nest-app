@@ -17,7 +17,6 @@ import { AnswerController } from './answer.controller'
     UserModule
   ],
   providers: [AnswerService],
-  exports: [AnswerService],
   controllers: [AnswerController]
 })
 export class AnswerModule {}

@@ -11,6 +11,7 @@ import { CreateAnswerDto } from './dto/create-answer.dto'
 import { UpdateAnswerDto } from './dto/update-answer.dto'
 
 import { IResponse } from '../auth/interfaces/response.interface'
+import { IGetAnswer } from './interfaces/get-answers.interface'
 
 @Injectable()
 export class AnswerService {
@@ -36,12 +37,22 @@ export class AnswerService {
     return { success: true }
   }
 
-  async getAnswers(questionId: string): Promise<Answer[]> {
-    const question = await this.questionsRepository.findOne(questionId, { relations: ['answer'] })
+  async getAnswers(questionId: string): Promise<IGetAnswer[]> {
+    const question = await this.questionsRepository.findOne(questionId, { relations: ['answers', 'user'] })
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
-    const { answer } = question
-    return answer
+    const { answers, user } = question
+
+    const response = answers.map((answer) => {
+      return {
+        ...answer,
+        userName: user.userName,
+        avatarUrl: this.userService.getAvatar(user.avatarId),
+        date: this.userService.getDate(answer.date)
+      }
+    })
+
+    return response
   }
 
   async updateAnswer(userId: string, answerId: string, updateAnswerDto: UpdateAnswerDto): Promise<IResponse> {

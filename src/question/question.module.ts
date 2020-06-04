@@ -8,7 +8,6 @@ import { QuestionController } from './question.controller'
 import { Question } from './entity/question.entity'
 
 import { UserModule } from '../user/user.module'
-import { ProfileModule } from '../profile/profile.module'
 import { AnswerModule } from '../answer/answer.module'
 
 @Module({
@@ -16,7 +15,6 @@ import { AnswerModule } from '../answer/answer.module'
     TypeOrmModule.forFeature([Question]),
     PassportModule.register({ defaultStrategy: 'access-jwt' }),
     UserModule,
-    ProfileModule,
     AnswerModule
   ],
   providers: [QuestionService],

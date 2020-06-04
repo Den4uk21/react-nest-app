@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { UserService } from '../user/user.service'
-import { ProfileService } from '../profile/profile.service'
 
 import { Question } from './entity/question.entity'
 
@@ -24,7 +23,6 @@ export class QuestionService {
     @InjectRepository(Question)
     private questionsRepository: Repository<Question>,
     private readonly userService: UserService,
-    private readonly profileService: ProfileService
   ) {
     this.limit = 10
   }
@@ -39,8 +37,8 @@ export class QuestionService {
   }
 
   async getUserQuestionsNoAnswers(userId: string, page: number): Promise<ILinkQuestionResponse> {
-    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answer'] })
-    const filteredQuestions = questions.filter((question) => question.answer.length === 0)
+    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
+    const filteredQuestions = questions.filter((question) => question.answers.length === 0)
 
     const validQuestions = this.paginationQuestions(page, filteredQuestions)
     return {
@@ -50,8 +48,8 @@ export class QuestionService {
   }
 
   async getUserQuestionsWithAnswers(userId: string, page: number): Promise<ILinkQuestionResponse> {
-    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answer'] })
-    const filteredQuestions = questions.filter((question) => question.answer.length !== 0)
+    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
+    const filteredQuestions = questions.filter((question) => question.answers.length !== 0)
 
     const validQuestions = this.paginationQuestions(page, filteredQuestions)
     return {
@@ -63,7 +61,7 @@ export class QuestionService {
   async getAllQuestions(page: number, filterQuestionDto: FilterQuestionDto): Promise<ILinkQuestionResponse> {
     const { type, categories } = filterQuestionDto
     
-    const questions = await this.questionsRepository.find({ relations: ['answer'] })
+    const questions = await this.questionsRepository.find({ relations: ['answers'] })
     let filteredCategoriesQuestions: Question[] = questions
 
     if(categories) {
@@ -83,13 +81,13 @@ export class QuestionService {
     const { user, ...question } = await this.questionsRepository.findOne(questionId, { relations: ['user'] })
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
-    const date = this.getDate(Number(question.date))
+    const date = this.userService.getDate(Number(question.date))
 
     return {
       ...question,
       date,
       userName: user.userName,
-      avatarUrl: this.profileService.getAvatar(user.avatarId)
+      avatarUrl: this.userService.getAvatar(user.avatarId)
     }
   }
 
@@ -109,16 +107,11 @@ export class QuestionService {
     return { success: true }
   }
 
-  private getDate(date: number): string {
-    const vailidDate = new Date(date)
-    return `${vailidDate.getFullYear()}-${vailidDate.getMonth()}-${vailidDate.getDate()}`
-  }
-
   private getValidLinkQuestions(questions: Question[]): ILinkQuestion[] {
     const response = questions.map((question) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { descriptions, answer, ...data } = question
-      const date = this.getDate(Number(question.date))
+      const { descriptions, answers, ...data } = question
+      const date = this.userService.getDate(question.date)
 
       return { ...data, date }
     })
@@ -129,14 +122,14 @@ export class QuestionService {
   private filterQuestions(type: string, questions: Question[]): Question[] {
     switch (type) {
       case questionTypeEnum.new:
-        return questions.sort((a, b) => a.date - b.date)
+        return questions.sort((a, b) => b.date - a.date)
 
       case questionTypeEnum.popular:
         
 
         break
       case questionTypeEnum.withoutAnswers:
-        return questions.filter((question) => question.answer.length === 0)
+        return questions.filter((question) => question.answers.length === 0)
     }
   }
 

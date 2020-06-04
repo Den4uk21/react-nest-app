@@ -4,6 +4,7 @@ import { AuthGuard } from '@nestjs/passport'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { ProfileService } from './profile.service'
+import { UserService } from '../user/user.service'
 
 import { UpdateProfileDto } from './dto/update-profile.dto'
 import { EmailProfileDto } from './dto/email-profile.dto'
@@ -17,7 +18,8 @@ import { IResponse } from '../auth/interfaces/response.interface'
 @Controller('profile')
 export class ProfileController {
   constructor(
-    private readonly profileService: ProfileService
+    private readonly profileService: ProfileService,
+    private readonly userService: UserService
   ) {}
 
   @Get(':user')
@@ -35,7 +37,7 @@ export class ProfileController {
   @Post('avatar')
   @UseInterceptors(FileInterceptor('avatar', { dest: './src/user/avatars' }))
   async uploadAvatar(@UploadedFile() file, @Request() req): Promise<IResponse> {
-    return this.profileService.uploadAvatar(req.user.userId, file.path)
+    return this.userService.uploadAvatar(req.user.userId, file.path)
   }
 
   @Put('change-email')
