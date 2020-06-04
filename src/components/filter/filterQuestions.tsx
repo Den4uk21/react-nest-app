@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Radio } from 'antd'
 import { RadioChangeEvent } from 'antd/lib/radio'
 
@@ -7,23 +7,31 @@ import { SelectCategories } from './selectCategories'
 import './styles.sass'
 
 interface IFilterQuestionsProps {
-  addFilterParams: (value: string) => void
+  addFilterParams: (type: string, categories: string[]) => void
 }
 
 export const FilterQuestions: React.FC<IFilterQuestionsProps> = ({ addFilterParams }) => {
-  const filterParamsChange = (e: RadioChangeEvent) => {
-    addFilterParams(e.target.value)
+  const [type, setType] = useState<string>('new')
+  const [categories, setCategories] = useState<string[]>([])
+
+  const filterTypeChange = (e: RadioChangeEvent) => {
+    setType(e.target.value)
+    addFilterParams(e.target.value, categories)
+  }
+
+  const onSearchClick = (value: string[]) => {
+    addFilterParams(type, value)
   }
 
   return (
     <section className="filter-questions">
-      <Radio.Group defaultValue="new" buttonStyle="solid" className="filter-params" onChange={filterParamsChange}>
+      <Radio.Group defaultValue="new" buttonStyle="solid" className="filter-params" onChange={filterTypeChange}>
         <Radio.Button value="new">New</Radio.Button>
         <Radio.Button value="popular">Popular</Radio.Button>
         <Radio.Button value="without_answers">Without answers</Radio.Button>
       </Radio.Group>
 
-      <SelectCategories />
+      <SelectCategories onSearchClick={onSearchClick} setCategories={setCategories} />
     </section>
   )
 }

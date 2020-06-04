@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { QuestionContainer } from '../../containers/question/questionContainer'
+import { QuestionsListContainer } from '../../containers/question/questionsListContainer'
 import { FilterContainer } from '../../containers/filter/filterContainer'
+import { PaginationContainer } from '../../containers/pagination/paginationContainer'
 
 import './styles.sass'
 
@@ -9,7 +10,8 @@ const MainPage: React.FC = () => {
   return (
     <main className="main-page">
       <FilterContainer />
-      <QuestionContainer />
+      <QuestionsListContainer />
+      <PaginationContainer />
     </main>
   )
 }

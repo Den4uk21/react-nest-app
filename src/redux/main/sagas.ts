@@ -9,10 +9,12 @@ import { IFilterQuestions } from '../../types/main/types'
 
 function* GetAllQuestionsWorker(action: Action<IFilterQuestions>) {
   try {
+    yield put(MainActions.loadingAllQuestions(true))
     const { status, data } = yield call(getAllQuestionsApi, action.payload)
    
     if(status === 201) {
       yield put(MainActions.pushAllQuestions(data))
+      yield put(MainActions.loadingAllQuestions(false))
     }else {
       message.error(data.message)
     }

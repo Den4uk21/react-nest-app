@@ -3,13 +3,13 @@ import { ContentType } from '../assets/utils'
 
 import { IFilterQuestions } from '../../types/main/types'
 
-export const getAllQuestionsApi = async (payload: IFilterQuestions) => {
-  const data = await fetch(MainUrls.getAllQuestionsURL + `?page=${1}`, {
+export const getAllQuestionsApi = async ({ type = 'new', categories, page = '1' }: IFilterQuestions) => {
+  const data = await fetch(MainUrls.getAllQuestionsURL + `?page=${page}`, {
     method: 'POST',
     headers: {
       'Content-type': ContentType.APPLICATION_JSON
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({ type, categories: categories ? categories.split(',') : null })
   })
 
   return {

@@ -1,5 +1,6 @@
 export interface IMainState {
-  questionsList: ILinkQuestion[]
+  questions: ILinkQuestionResponse,
+  loading: boolean
 }
 
 export interface ILinkQuestion {
@@ -9,7 +10,13 @@ export interface ILinkQuestion {
   date: string
 }
 
+export interface ILinkQuestionResponse {
+  questionsList: ILinkQuestion[],
+  amount: number
+}
+
 export interface IFilterQuestions {
   type: string,
-  categories?: string[]
+  categories: string,
+  page: string
 }
