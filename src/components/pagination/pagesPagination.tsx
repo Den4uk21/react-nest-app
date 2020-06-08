@@ -6,13 +6,13 @@ import './styles.sass'
 interface IPagesPaginationProps {
   onPageChange: (page: number) => void,
   total: number,
-  current: number
+  current?: number
 }
 
-export const PagesPagination: React.FC<IPagesPaginationProps> = ({ total, onPageChange, current }) => {
+export const PagesPagination: React.FC<IPagesPaginationProps> = ({ total, onPageChange, current = 1 }) => {
   return (
     <section className="pagination">
-      <Pagination current={current ? current : 1} onChange={onPageChange} total={total} />
+      <Pagination current={current} onChange={onPageChange} total={total} />
     </section>
   )
 }

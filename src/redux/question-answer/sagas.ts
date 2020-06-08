@@ -3,28 +3,55 @@ import { Action } from 'redux-actions'
 import { message } from 'antd'
 
 import { QuestionAnswerActions } from './actions'
-import { getQuestionInfoApi, getAnswersApi } from './api'
+import { getQuestionInfoApi, getAnswersApi, updateRatingApi } from './api'
 
-function* GetQuestionAnswerWorker(action: Action<string>) {
+import { IGetAnswers } from '../../types/question-answer/types'
+
+function* GetQuestionWorker(action: Action<string>) {
   try {
-    yield put(QuestionAnswerActions.loadingQuestionInfo(true))
-    const question = yield call(getQuestionInfoApi, action.payload)
-    const answers = yield call(getAnswersApi , action.payload)
+    const { status, data } = yield call(getQuestionInfoApi, action.payload)
    
-    if(question.status === 200 && answers.status === 200) {
-      yield put(QuestionAnswerActions.pushQuestionInfo(question.data))
-      yield put(QuestionAnswerActions.pushAnswers(answers.data))
-      yield put(QuestionAnswerActions.loadingQuestionInfo(false))
+    if(status === 200) {
+      yield put(QuestionAnswerActions.pushQuestionInfo(data))
     }else {
-      if(question.data.message) message.error(question.data.message)
-      if(answers.data.message) message.error(answers.data.message)
+      message.error(data.message)
     }
   }catch(err) {
-    message.error('Failed to get question and answers')
+    message.error('Failed to get question!')
+    console.log(err)
+  }
+}
+
+function* GetAnswersWorker(action: Action<IGetAnswers>) {
+  try {
+    const { status, data } = yield call(getAnswersApi, action.payload)
+
+    if(status === 200) {
+      yield put(QuestionAnswerActions.pushAnswers(data))
+    }else {
+      message.error(data.message)
+    }
+  }catch(err) {
+    message.error('Failed to get answers!')
+    console.log(err)
+  }
+}
+
+function* UpdateRatingWorker(action: Action<string>) {
+  try {
+    const { status, data } = yield call(updateRatingApi, action.payload)
+
+    if(status !== 200) {
+      message.error(data.message)
+    }
+  }catch(err) {
+    message.error('Failed to get answers!')
     console.log(err)
   }
 }
 
 export default function* watchQuestionAnswer() {
-  yield takeLatest(QuestionAnswerActions.Type.GET_QUESTION_INFO, GetQuestionAnswerWorker)
+  yield takeLatest(QuestionAnswerActions.Type.GET_QUESTION_INFO, GetQuestionWorker)
+  yield takeLatest(QuestionAnswerActions.Type.GET_ANSWERS, GetAnswersWorker)
+  yield takeLatest(QuestionAnswerActions.Type.UPDATE_RATING, UpdateRatingWorker)
 }

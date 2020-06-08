@@ -2,10 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Tag } from 'antd'
 
-import { IGetQuestion } from '../../types/question-answer/types'
+import { IQuestion } from '../../types/question-answer/types'
 import './styles.sass'
 
-export const QuestionInfo : React.FC<IGetQuestion> = ({ id, userName, avatarUrl, title, descriptions, categories, date }) => {
+export const QuestionInfo : React.FC<IQuestion> = ({ id, userName, avatarUrl, title, descriptions, categories, date }) => {
   return (
     <section className="question-info">
       <div className="user-info">

@@ -1,10 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { InfoCircleTwoTone, CheckCircleTwoTone } from '@ant-design/icons'
+import { Button } from 'antd'
+import { CheckCircleTwoTone } from '@ant-design/icons'
 
-import { IGetAnswer } from '../../types/question-answer/types'
+import { IAnswer } from '../../types/question-answer/types'
 
-export const Answer: React.FC<IGetAnswer> = ({ id, userName, avatarUrl, answer, isAnswer, date }) => {
+interface IAnswerProps extends IAnswer {
+  onIncreaseRating: (answerId: string) => void
+}
+
+export const Answer: React.FC<IAnswerProps> = ({ id, userName, avatarUrl, answer, rating, isAnswer, date, onIncreaseRating }) => {
   return (
     <div className="answer">
       <picture className="user-avatar">
@@ -20,11 +25,17 @@ export const Answer: React.FC<IGetAnswer> = ({ id, userName, avatarUrl, answer, 
         <span>{answer}</span>
       </div>
 
+      <div className="rating">
+        <div className="amount">{rating}</div>
+
+        <Button type="ghost" onClick={() => onIncreaseRating(id)}>
+          Increase
+        </Button>
+      </div>
+
       {isAnswer ? (
         <CheckCircleTwoTone twoToneColor="#52c41a" className="is-answer-icon" />
-      ): (
-        <InfoCircleTwoTone className="is-answer-icon" />
-      )}
+      ): <></>}
     </div>
   )
 }

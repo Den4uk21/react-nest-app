@@ -1,15 +1,16 @@
 import { handleActions, Action } from 'redux-actions'
 import { QuestionAnswerActions } from './actions'
-import { IQuestionAnswerState, IGetQuestion, IGetAnswer } from '../../types/question-answer/types'
+import { IQuestionAnswerState, IQuestion, IGetAnswerResponse } from '../../types/question-answer/types'
 
 const initialState: IQuestionAnswerState = {
   questionsInfo: null,
-  answersList: [],
-  loading: true
+  answers: {
+    answersList: [],
+    amount: 1
+  }
 }
 
 export const QuestionAnswerReducer = handleActions<IQuestionAnswerState, any>({
-  [QuestionAnswerActions.Type.PUSH_QUESTION_INFO]: (state, action: Action<IGetQuestion>) => ({ ...state, questionsInfo: action.payload }),
-  [QuestionAnswerActions.Type.PUSH_ANSWERS]: (state, action: Action<IGetAnswer[]>) => ({ ...state, answersList: action.payload }),
-  [QuestionAnswerActions.Type.LOAD_QUESTION_INFO]: (state, action: Action<boolean>) => ({ ...state, loading: action.payload })
+  [QuestionAnswerActions.Type.PUSH_QUESTION_INFO]: (state, action: Action<IQuestion>) => ({ ...state, questionsInfo: action.payload }),
+  [QuestionAnswerActions.Type.PUSH_ANSWERS]: (state, action: Action<IGetAnswerResponse>) => ({ ...state, answers: action.payload })
 }, initialState)

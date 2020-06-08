@@ -1,20 +1,18 @@
-import { call, takeLatest, put } from 'redux-saga/effects'
-import { Action } from 'redux-actions'
+import { call, takeLatest, put, select } from 'redux-saga/effects'
 import { message } from 'antd'
 
 import { MainActions } from './actions'
 import { getAllQuestionsApi } from './api'
 
-import { IFilterQuestions } from '../../types/main/types'
+import { IRootReducer } from '../store/rootReducer'
 
-function* GetAllQuestionsWorker(action: Action<IFilterQuestions>) {
+function* GetAllQuestionsWorker() {
   try {
-    yield put(MainActions.loadingAllQuestions(true))
-    const { status, data } = yield call(getAllQuestionsApi, action.payload)
+    const payload = yield select((state: IRootReducer) => state.main.filter)
+    const { status, data } = yield call(getAllQuestionsApi, payload)
    
     if(status === 201) {
       yield put(MainActions.pushAllQuestions(data))
-      yield put(MainActions.loadingAllQuestions(false))
     }else {
       message.error(data.message)
     }

@@ -1,10 +1,9 @@
 export interface IQuestionAnswerState {
-  questionsInfo: IGetQuestion | null,
-  answersList: IGetAnswer[],
-  loading: boolean
+  questionsInfo: IQuestion | null,
+  answers: IGetAnswerResponse
 }
 
-export interface IGetQuestion {
+export interface IQuestion {
   id: string,
   title: string,
   descriptions: string,
@@ -14,11 +13,22 @@ export interface IGetQuestion {
   avatarUrl: string
 }
 
-export interface IGetAnswer {
+export interface IAnswer {
   id: string,
   answer: string,
   isAnswer: boolean,
+  rating: number,
   date: string,
   userName: string,
   avatarUrl: string
+}
+
+export interface IGetAnswerResponse {
+  answersList: IAnswer[],
+  amount: number
+}
+
+export interface IGetAnswers {
+  questionId: string,
+  page?: number
 }
