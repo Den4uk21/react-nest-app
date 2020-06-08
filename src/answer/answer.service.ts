@@ -3,31 +3,28 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
 import { Answer } from './entity/answer.entity'
-import { Question } from '../question/entity/question.entity'
 
 import { UserService } from '../user/user.service'
+import { QuestionService } from '../question/question.service'
 
 import { CreateAnswerDto } from './dto/create-answer.dto'
 import { UpdateAnswerDto } from './dto/update-answer.dto'
 
 import { IResponse } from '../auth/interfaces/response.interface'
-import { IGetAnswer } from './interfaces/get-answers.interface'
+import { IGetAnswerResponse } from './interfaces/get-answers.interface'
 
 @Injectable()
 export class AnswerService {
   constructor(
     @InjectRepository(Answer)
     private answersRepository: Repository<Answer>,
-
-    @InjectRepository(Question)
-    private questionsRepository: Repository<Question>,
-
-    private readonly userService: UserService 
+    private readonly userService: UserService,
+    private readonly questionService: QuestionService 
   ) {}
 
   async createAnswer(userId: string, createAnswerDto: CreateAnswerDto): Promise<IResponse> {
     const user = await this.userService.findById(userId)
-    const question = await this.questionsRepository.findOne(createAnswerDto.questionId)
+    const question = await this.questionService.findById(createAnswerDto.questionId)
 
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
@@ -37,22 +34,29 @@ export class AnswerService {
     return { success: true }
   }
 
-  async getAnswers(questionId: string): Promise<IGetAnswer[]> {
-    const question = await this.questionsRepository.findOne(questionId, { relations: ['answers', 'user'] })
+  async getAnswers(page: number, questionId: string): Promise<IGetAnswerResponse> {
+    const question = await this.questionService.findById(questionId, { relations: ['answers', 'user'] })
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
     const { answers, user } = question
 
-    const response = answers.map((answer) => {
+    const responseAnswers = answers.map((answer) => {
       return {
         ...answer,
+        rating: answer.rating.length,
         userName: user.userName,
         avatarUrl: this.userService.getAvatar(user.avatarId),
         date: this.userService.getDate(answer.date)
       }
     })
 
-    return response
+    const sortAnswers = responseAnswers.sort((a, b) => b.rating - a.rating).sort((a, b) => Number(b.isAnswer) - Number(a.isAnswer))
+    const validAnswers = this.questionService.paginationPages(page, sortAnswers)
+
+    return {
+      answersList: validAnswers,
+      amount: responseAnswers.length
+    }
   }
 
   async updateAnswer(userId: string, answerId: string, updateAnswerDto: UpdateAnswerDto): Promise<IResponse> {
@@ -73,12 +77,26 @@ export class AnswerService {
 
   async isAnswer(userId: string, questionId: string, answerId: string): Promise<IResponse> {
     const user = await this.userService.findById(userId)
-    const question = await this.questionsRepository.findOne(questionId, { relations: ['user'] })
+    const question = await this.questionService.findById(questionId, { relations: ['user'] })
     const answer = await this.answersRepository.findOne(answerId)
 
     if(user.id !== question.user.id) throw new HttpException('Forbidden!', HttpStatus.FORBIDDEN)
     await this.answersRepository.update(answerId, { isAnswer: !answer.isAnswer })
 
+    return { success: true }
+  }
+
+  async updateRating(userId: string, answerId: string): Promise<IResponse> {
+    const answer = await this.answersRepository.findOne(answerId)
+    const isRated = answer.rating.find((id) => id === userId)
+
+    if(isRated) {
+      answer.rating = answer.rating.filter((id) => id !== userId)
+    }else {
+      answer.rating.push(userId)
+    }
+
+    await this.answersRepository.save(answer)
     return { success: true }
   }
 }

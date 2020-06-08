@@ -2,6 +2,7 @@ export interface ILinkQuestion {
   id: string,
   title: string,
   categories: string[],
+  answersAmount: number,
   date: string
 }
 

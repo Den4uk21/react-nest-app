@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Repository, FindOneOptions } from 'typeorm'
 
 import { UserService } from '../user/user.service'
 
@@ -40,7 +40,7 @@ export class QuestionService {
     const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
     const filteredQuestions = questions.filter((question) => question.answers.length === 0)
 
-    const validQuestions = this.paginationQuestions(page, filteredQuestions)
+    const validQuestions = this.paginationPages(page, filteredQuestions)
     return {
       questionsList: this.getValidLinkQuestions(validQuestions),
       amount: filteredQuestions.length
@@ -51,7 +51,7 @@ export class QuestionService {
     const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
     const filteredQuestions = questions.filter((question) => question.answers.length !== 0)
 
-    const validQuestions = this.paginationQuestions(page, filteredQuestions)
+    const validQuestions = this.paginationPages(page, filteredQuestions)
     return {
       questionsList: this.getValidLinkQuestions(validQuestions),
       amount: filteredQuestions.length
@@ -69,7 +69,7 @@ export class QuestionService {
     }
     
     const filteredQuestions = this.filterQuestions(type, filteredCategoriesQuestions)
-    const validQuestions = this.paginationQuestions(page, filteredQuestions)
+    const validQuestions = this.paginationPages(page, filteredQuestions)
 
     return {
       questionsList: this.getValidLinkQuestions(validQuestions),
@@ -107,13 +107,28 @@ export class QuestionService {
     return { success: true }
   }
 
+  async findById(questionId: string, options?: FindOneOptions<Question>): Promise<Question> {
+    return this.questionsRepository.findOne(questionId, options)
+  }
+
+  paginationPages<T>(page: number, array: T[]): T[] {
+    const start = this.limit * (page - 1)
+    const end = start + this.limit
+
+    return array.slice(start, end)
+  }
+
   private getValidLinkQuestions(questions: Question[]): ILinkQuestion[] {
     const response = questions.map((question) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { descriptions, answers, ...data } = question
       const date = this.userService.getDate(question.date)
 
-      return { ...data, date }
+      return { 
+        ...data, 
+        date, 
+        answersAmount: answers.length,
+      }
     })
 
     return response
@@ -125,9 +140,8 @@ export class QuestionService {
         return questions.sort((a, b) => b.date - a.date)
 
       case questionTypeEnum.popular:
-        
+        return questions.sort((a, b) => b.answers.length - a.answers.length)
 
-        break
       case questionTypeEnum.withoutAnswers:
         return questions.filter((question) => question.answers.length === 0)
     }
@@ -145,12 +159,5 @@ export class QuestionService {
     })
 
     return filteredQuestions
-  }
-
-  private paginationQuestions(page: number, questions: Question[]): Question[] {
-    const start = this.limit * (page - 1)
-    const end = start + this.limit
-
-    return questions.slice(start, end)
   }
 }

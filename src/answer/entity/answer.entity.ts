@@ -13,6 +13,9 @@ export class Answer {
   @Column({ type: 'bool', default: false })
   isAnswer: boolean
 
+  @Column({ type: 'uuid', array: true, default: {} })
+  rating: string[]
+
   @Column({ type: 'bigint', default: Date.now() })
   date: number
 

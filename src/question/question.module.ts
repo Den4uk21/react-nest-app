@@ -8,16 +8,15 @@ import { QuestionController } from './question.controller'
 import { Question } from './entity/question.entity'
 
 import { UserModule } from '../user/user.module'
-import { AnswerModule } from '../answer/answer.module'
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Question]),
     PassportModule.register({ defaultStrategy: 'access-jwt' }),
-    UserModule,
-    AnswerModule
+    UserModule
   ],
   providers: [QuestionService],
-  controllers: [QuestionController]
+  controllers: [QuestionController],
+  exports: [QuestionService]
 })
 export class QuestionModule {}
