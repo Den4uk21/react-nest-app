@@ -1,5 +1,5 @@
 export interface IGetProfile {
-  avatarUrl: string | null,
+  avatarUrl: string,
   userName: string,
   email: string,
   motto: string | null,

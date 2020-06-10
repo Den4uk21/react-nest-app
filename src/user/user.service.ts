@@ -79,11 +79,11 @@ export class UserService {
   }
 
   getAvatar(avatarId: string, options?): string {
-    return cloudinary.v2.url(avatarId, { ...options, width: 50, height: 50, crop: 'scale', secure: true, radius: 5 })
+    return cloudinary.v2.url(avatarId, { width: 50, height: 50, crop: 'scale', secure: true, radius: 5, ...options })
   }
 
   getDate(date: number): string {
     const vailidDate = new Date(Number(date))
-    return `${vailidDate.getFullYear()}-${vailidDate.getMonth()}-${vailidDate.getDate()}`
+    return `${vailidDate.getFullYear()}-${vailidDate.getMonth() + 1}-${vailidDate.getDate()}`
   }
 }

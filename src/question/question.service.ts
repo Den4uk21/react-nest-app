@@ -36,8 +36,11 @@ export class QuestionService {
     return { success: true }
   }
 
-  async getUserQuestionsNoAnswers(userId: string, page: number): Promise<ILinkQuestionResponse> {
-    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
+  async getUserQuestionsNoAnswers(userName: string, page: number): Promise<ILinkQuestionResponse> {
+    const user = await this.userService.findByName(userName)
+    if(!user) throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
+    
+    const questions = await this.questionsRepository.find({ where: { user: user.id }, relations: ['answers'] })
     const filteredQuestions = questions.filter((question) => question.answers.length === 0)
 
     const validQuestions = this.paginationPages(page, filteredQuestions)
@@ -47,8 +50,11 @@ export class QuestionService {
     }
   }
 
-  async getUserQuestionsWithAnswers(userId: string, page: number): Promise<ILinkQuestionResponse> {
-    const questions = await this.questionsRepository.find({ where: { user: userId }, relations: ['answers'] })
+  async getUserQuestionsWithAnswers(userName: string, page: number): Promise<ILinkQuestionResponse> {
+    const user = await this.userService.findByName(userName)
+    if(!user) throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
+
+    const questions = await this.questionsRepository.find({ where: { user: user.id }, relations: ['answers'] })
     const filteredQuestions = questions.filter((question) => question.answers.length !== 0)
 
     const validQuestions = this.paginationPages(page, filteredQuestions)

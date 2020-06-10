@@ -25,16 +25,14 @@ export class QuestionController {
     return this.questionService.createQuestion(req.user.userId, createQuestionDto)
   }
 
-  @UseGuards(AuthGuard())
-  @Get('user/no-answers')
-  async getUserQuestionsNoAnswers(@Request() req, @Query('page') page: number): Promise<ILinkQuestionResponse> {
-    return this.questionService.getUserQuestionsNoAnswers(req.user.userId, page)
+  @Get(':user/no-answers')
+  async getUserQuestionsNoAnswers(@Param('user') userName: string, @Query('page') page: number): Promise<ILinkQuestionResponse> {
+    return this.questionService.getUserQuestionsNoAnswers(userName, page)
   }
 
-  @UseGuards(AuthGuard())
-  @Get('user/with-answers')
-  async getUserQuestionsWithAnswers(@Request() req, @Query('page') page: number): Promise<ILinkQuestionResponse> {
-    return this.questionService.getUserQuestionsWithAnswers(req.user.userId, page)
+  @Get(':user/with-answers')
+  async getUserQuestionsWithAnswers(@Param('user') userName: string, @Query('page') page: number): Promise<ILinkQuestionResponse> {
+    return this.questionService.getUserQuestionsWithAnswers(userName, page)
   }
 
   @Post('all')

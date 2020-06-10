@@ -23,9 +23,11 @@ export class ProfileService {
 
   async getProfile(userName: string): Promise<IGetProfile> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, password, avatarId, ...profile } = await this.userService.findByName(userName)
-    
-    return { avatarUrl: this.userService.getAvatar(avatarId), ...profile }
+    const user = await this.userService.findByName(userName)
+    if(!user) throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
+
+    const { id, password, avatarId, ...profile } = user    
+    return { avatarUrl: this.userService.getAvatar(avatarId, { width: 200, height: 200 }), ...profile }
   }
 
   async updateProfile(userId: string, updateProfileDto: UpdateProfileDto): Promise<IResponse> {
