@@ -36,8 +36,8 @@ export const signInApi = async (payload: ILogin) => {
   }
 }
 
-export const confirmApi = async (payload: string) => {
-  const data = await fetch(AuthUrls.confirmURL + payload, { method: 'PUT' })
+export const confirmApi = async (token: string) => {
+  const data = await fetch(AuthUrls.confirmURL + token, { method: 'PUT' })
 
   return {
     status: await data.status,

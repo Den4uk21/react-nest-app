@@ -14,12 +14,10 @@
     "antd": "^4.2.5",
     "history": "^4.10.1",
     "node-sass": "^4.14.1",
-    "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-router-redux": "^4.0.8",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
     "redux-actions": "^2.6.5",
@@ -50,7 +48,6 @@
   "devDependencies": {
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
-    "@types/react-router-redux": "^5.0.18",
     "@types/redux": "^3.6.0",
     "@types/redux-actions": "^2.6.1",
     "@types/redux-saga": "^0.10.5"

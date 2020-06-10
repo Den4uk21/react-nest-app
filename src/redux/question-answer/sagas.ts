@@ -45,7 +45,7 @@ function* UpdateRatingWorker(action: Action<string>) {
       message.error(data.message)
     }
   }catch(err) {
-    message.error('Failed to get answers!')
+    message.error('Failed to update rating!')
     console.log(err)
   }
 }

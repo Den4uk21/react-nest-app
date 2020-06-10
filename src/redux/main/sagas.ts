@@ -17,7 +17,7 @@ function* GetAllQuestionsWorker() {
       message.error(data.message)
     }
   }catch(err) {
-    message.error('Failed to get questions')
+    message.error('Failed to get questions!')
     console.log(err)
   }
 }

@@ -10,6 +10,7 @@ import { Header } from './components/header/header'
 
 const MainPage = React.lazy(() => import('./pages/main/mainPage'))
 const QuestionAnswerPage = React.lazy(() => import('./pages/question-answer/question-answerPage'))
+const ProfilePage = React.lazy(() => import('./pages/profile/profilePage'))
 
 const LoginPage = React.lazy(() => import('./pages/auth/login/loginPage'))
 const RegisterPage = React.lazy(() => import('./pages/auth/register/registerPage'))
@@ -34,6 +35,7 @@ const App: React.FC = () => {
               <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route path="/q/:questionId" component={QuestionAnswerPage} />
+                <Route path="/profile/:userName" component={ProfilePage} />
 
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />

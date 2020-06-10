@@ -6,7 +6,7 @@ const initialState: IQuestionAnswerState = {
   questionsInfo: null,
   answers: {
     answersList: [],
-    amount: 1
+    amount: 0
   }
 }
 

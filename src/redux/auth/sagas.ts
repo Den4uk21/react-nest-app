@@ -1,5 +1,4 @@
-import { call, takeLatest, put } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
+import { call, takeLatest } from 'redux-saga/effects'
 import { Action } from 'redux-actions'
 import { message } from 'antd'
 
@@ -14,7 +13,7 @@ function* SignUpWorker(action: Action<IRegister>) {
     const { status, data } = yield call(signUpApi, action.payload)
     
     if(status === 201) {
-      yield put(push('/auth/success'))
+      window.location.replace('/auth/success')
     }else {
       message.error(data.message)
     }
@@ -30,7 +29,7 @@ function* SignInWorker(action: Action<ILogin>) {
 
     if(status === 201) {
       yield saveTokens(data)
-      yield window.location.href = '/'
+      window.location.replace('/')
     }else {
       message.error(data.message)
     }
@@ -45,7 +44,7 @@ function* ConfirmWorker(action: Action<string>) {
     const { status, data } = yield call(confirmApi, action.payload)
 
     if(status === 200) {
-      yield put(push('/')) 
+      window.location.replace('/')
     }else {
       message.error(data.message)
     }
