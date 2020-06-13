@@ -6,6 +6,7 @@ export const saveTokens = (data: IAuth) => {
 }
 
 const refreshTokens = async (refreshToken: string) => {
+  const userName = JSON.parse(localStorage.auth_tokens).userName
   const newTokens = await fetch(AuthUrls.tokensURL,
     {
       headers: {
@@ -15,7 +16,8 @@ const refreshTokens = async (refreshToken: string) => {
   )
 
   if(newTokens.status === 200) {
-    saveTokens(await newTokens.json())
+    const tokensData = await newTokens.json()
+    saveTokens({ userName, ...tokensData })
   }else {
     throw new Error()
   }
@@ -23,33 +25,33 @@ const refreshTokens = async (refreshToken: string) => {
 
 export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
   const loginUrl = '/login'
-  let tokenData = null
+  let tokensData = null
 
   if(localStorage.auth_tokens) {
-    tokenData = JSON.parse(localStorage.auth_tokens)
+    tokensData = JSON.parse(localStorage.auth_tokens)
   }else {
-    return window.location.replace(loginUrl)
+    window.location.replace(loginUrl)
   }
 
   if(!options.headers) {
-    options.headers = {};
+    options.headers = {}
   }
 
-  if(tokenData) {
-    if(Date.now() >= tokenData.expires_on) {
+  if(tokensData) {
+    if(Date.now() >= tokensData.expiresOn) {
       try {
-        await refreshTokens(tokenData.refreshToken)
-        tokenData = JSON.parse(localStorage.auth_tokens)
+        await refreshTokens(tokensData.refreshToken)
+        tokensData = JSON.parse(localStorage.auth_tokens)
       }catch (err) { 
         console.log(err)
         removeTokens()
-        return window.location.replace(loginUrl);
+        window.location.replace(loginUrl)
       }
     }
 
     options.headers = {
       ...options.headers,
-      'Authorization': `Bearer ${tokenData.accessToken}`
+      'Authorization': `Bearer ${tokensData.accessToken}`
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Router, Route, Switch } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 
 import { history } from './redux/store/store'
 import { Fallback } from './components/common/fallback'
@@ -8,16 +8,8 @@ import 'antd/dist/antd.css'
 
 import { Header } from './components/header/header'
 
-const MainPage = React.lazy(() => import('./pages/main/mainPage'))
-const QuestionAnswerPage = React.lazy(() => import('./pages/question-answer/question-answerPage'))
-const ProfilePage = React.lazy(() => import('./pages/profile/profilePage'))
-
-const LoginPage = React.lazy(() => import('./pages/auth/login/loginPage'))
-const RegisterPage = React.lazy(() => import('./pages/auth/register/registerPage'))
-const RegisterSuccessPage = React.lazy(() => import('./pages/auth/register/registerSuccessPage'))
-const ConfirmPage = React.lazy(() => import('./pages/auth/confirm/confirmPage'))
-
-const Error404Page = React.lazy(() => import('./pages/errors/error404Page'))
+import AuthRouter from './routers/authRouter'
+import NoAuthRouter from './routers/no-authRouter'
 
 const App: React.FC = () => {
   const isAuth = localStorage.auth_tokens
@@ -29,20 +21,10 @@ const App: React.FC = () => {
         {
           isAuth
             ? (
-              <div>Main</div>
+              <AuthRouter />
             )
             : (
-              <Switch>
-                <Route exact path="/" component={MainPage} />
-                <Route path="/q/:questionId" component={QuestionAnswerPage} />
-                <Route path="/profile/:userName" component={ProfilePage} />
-
-                <Route exact path="/login" component={LoginPage} />
-                <Route exact path="/register" component={RegisterPage} />
-                <Route exact path="/auth/success" component={RegisterSuccessPage} />
-                <Route exact path="/auth/confirm" component={ConfirmPage} />
-                <Route path="*" component={Error404Page} />
-              </Switch>
+              <NoAuthRouter />
             )
         }
       </Suspense>

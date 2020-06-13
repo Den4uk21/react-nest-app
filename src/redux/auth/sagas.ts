@@ -29,7 +29,7 @@ function* SignInWorker(action: Action<ILogin>) {
 
     if(status === 201) {
       yield saveTokens(data)
-      window.location.replace('/')
+      window.location.replace(`/profile/${JSON.parse(localStorage.auth_tokens).userName}`)
     }else {
       message.error(data.message)
     }

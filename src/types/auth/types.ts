@@ -1,4 +1,5 @@
 export interface IAuth {
+  userName: string
   accessToken: string,
   refreshToken: string,
   expiresOn: number
