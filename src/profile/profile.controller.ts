@@ -7,11 +7,13 @@ import { ProfileService } from './profile.service'
 import { UserService } from '../user/user.service'
 
 import { UpdateProfileDto } from './dto/update-profile.dto'
+import { UpdateUsernameDto } from './dto/update-username.dto'
 import { EmailProfileDto } from './dto/email-profile.dto'
-import { ChangePassDto } from './dto/change-pass.dto'
+import { ChangeForgotPassDto } from './dto/change-forgot-pass.dto'
 
 import { IGetProfile } from './interfaces/get-profile.interface'
 import { IResponse } from '../auth/interfaces/response.interface'
+import { ChangePassDto } from './dto/change-pass.dto'
 
 @ApiTags('profile')
 @ApiBearerAuth()
@@ -40,6 +42,12 @@ export class ProfileController {
     return this.userService.uploadAvatar(req.user.userId, file.path)
   }
 
+  @UseGuards(AuthGuard())
+  @Put('update-username')
+  async updateUsername(@Request() req, @Body() updateUsernameDto: UpdateUsernameDto): Promise<IResponse> {
+    return this.profileService.updateUsername(req.user.userId, updateUsernameDto)
+  }
+
   @Put('change-email')
   async changeEmail(@Query('token') token: string, @Body() changeEmailDto: EmailProfileDto): Promise<IResponse> {
     return this.profileService.changeEmail(token, changeEmailDto)
@@ -51,13 +59,19 @@ export class ProfileController {
     return this.profileService.sendChangeEmail(req.user.userId)
   }
 
+  @UseGuards(AuthGuard())
   @Put('change-password')
-  async changePassword(@Query('token') token: string, @Body() changePassDto: ChangePassDto): Promise<IResponse> {
-    return this.profileService.changePassword(token, changePassDto)
+  async changePassword(@Request() req, @Body() changePassDto: ChangePassDto): Promise<IResponse> {
+    return this.profileService.changePassword(req.user.userId, changePassDto)
+  }
+
+  @Put('change-forgot-pass')
+  async changeForgotPass(@Query('token') token: string, @Body() changeForgotPassDto: ChangeForgotPassDto): Promise<IResponse> {
+    return this.profileService.changeForgotPass(token, changeForgotPassDto)
   }
 
   @Post('send-change-pass')
   async sendChangePass(@Body() changeEmailDto: EmailProfileDto): Promise<IResponse> {
-    return this.profileService.sendChangePass(changeEmailDto.email)
+    return this.profileService.sendChangeForgotPass(changeEmailDto.email)
   }
 }

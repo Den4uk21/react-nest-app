@@ -3,6 +3,7 @@ export interface ITokensData {
 }
 
 export interface ITokens {
+  userName?: string,
   accessToken: string,
   refreshToken: string,
   expiresOn: number

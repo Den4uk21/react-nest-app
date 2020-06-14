@@ -32,6 +32,10 @@ export class UserService {
     return bcrypt.hash(password, salt)
   }
 
+  async comparePassword(password: string, userPassword: string): Promise<boolean> {
+    return bcrypt.compare(password, userPassword)
+  }
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     const hash = await this.hashPassword(createUserDto.password)
     const user = await this.usersRepository.create({ ...createUserDto, password: hash })

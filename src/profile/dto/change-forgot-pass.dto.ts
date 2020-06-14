@@ -1,12 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsString, Matches, IsNotEmpty } from 'class-validator'
 
-export class ChangePassDto {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  readonly oldPassword: string
-
+export class ChangeForgotPassDto {
   @ApiProperty()
   @IsString()
   @Matches(
@@ -14,5 +9,5 @@ export class ChangePassDto {
     { message: 'Weak password' },
   )
   @IsNotEmpty()
-  readonly newPassword: string
+  readonly password: string
 }

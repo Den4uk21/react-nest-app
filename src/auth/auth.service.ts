@@ -1,7 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as jwt from 'jsonwebtoken'
-import * as bcrypt from 'bcrypt'
 
 import { UserService } from '../user/user.service'
 import { MailService } from '../mail/mail.service'
@@ -43,12 +42,13 @@ export class AuthService {
     const { email, password } = checkUserDto
 
     const user = await this.userService.findByEmail(email)
-    if(!user) throw new HttpException('Incorrect login or password', HttpStatus.FORBIDDEN)
+    if(!user) throw new HttpException('Incorrect login or password!', HttpStatus.FORBIDDEN)
 
-    const isValid = await bcrypt.compare(password, user.password)
-    if(!isValid) throw new HttpException('Incorrect login or password', HttpStatus.FORBIDDEN)
+    const isValid = await this.userService.comparePassword(password, user.password)
+    if(!isValid) throw new HttpException('Incorrect login or password!', HttpStatus.FORBIDDEN)
 
     return {
+      userName: user.userName,
       accessToken: await this.generateAccessToken({ userId: user.id }),
       refreshToken: await this.generateRefreshToken({ userId: user.id }),
       expiresOn: Date.now() + this.accessTokenTime
@@ -57,8 +57,8 @@ export class AuthService {
 
   async updateTokens(userId: string): Promise<ITokens> {
     return {
-      accessToken: await this.generateAccessToken({ userId: userId }),
-      refreshToken: await this.generateRefreshToken({ userId: userId }),
+      accessToken: await this.generateAccessToken({ userId }),
+      refreshToken: await this.generateRefreshToken({ userId }),
       expiresOn: Date.now() + this.accessTokenTime
     }
   }

@@ -62,7 +62,7 @@ export class MailService {
     })
   }
 
-  async sendChangePass(mailData: ISendConfirmData): Promise<void> {
+  async sendChangeForgotPass(mailData: ISendConfirmData): Promise<void> {
     const { email, userName, tokenPayload } = mailData
 
     const confirmToken = await this.generateConfirmToken(tokenPayload)

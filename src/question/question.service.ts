@@ -164,6 +164,6 @@ export class QuestionService {
       filteredQuestions.push(...validQuestions)
     })
 
-    return filteredQuestions
+    return Array.from(new Set(filteredQuestions))
   }
 }
