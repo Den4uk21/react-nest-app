@@ -19,7 +19,7 @@ export const SettingsProfile: React.FC<SettingsProfileProps> = ({ onSubmitValues
   }
 
   return (
-    <section className="settings-profile">
+    <section className="settings-profile settings">
       <h1 className="title">Update Profile</h1>
       <hr />
 
@@ -34,14 +34,14 @@ export const SettingsProfile: React.FC<SettingsProfileProps> = ({ onSubmitValues
         }}
         onFinish={onFinish}
       >
-        <div className="bio">
+        <div className="form-item">
           <b>Bio</b>
           <Form.Item name="bio">
             <Input.TextArea />
           </Form.Item>
         </div>
 
-        <div className="motto">
+        <div className="form-item">
           <b>Motto</b>
           <Form.Item name="motto">
             <Input />
@@ -49,7 +49,7 @@ export const SettingsProfile: React.FC<SettingsProfileProps> = ({ onSubmitValues
         </div>
 
         <Form.Item>
-          <Button htmlType="submit" className="profile-form-button ">
+          <Button htmlType="submit" className="update-profile-btn ">
             Update profile
           </Button>
         </Form.Item>

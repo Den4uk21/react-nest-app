@@ -1,6 +1,13 @@
 import { IAuth } from '../../types/auth/types'
 import { AuthUrls } from '../../types/auth/constants'
 
+export const changeUsername = (userName: string) => {
+  const tokensData = JSON.parse(localStorage.auth_tokens)
+  tokensData.userName = userName
+
+  saveTokens(tokensData)
+}
+
 export const saveTokens = (data: IAuth) => {
   localStorage.setItem('auth_tokens', JSON.stringify(data))
 }

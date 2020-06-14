@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 import { ProfileInfo } from '../../components/profile/profileInfo'
-import Error404Page from '../../pages/errors/error404Page'
 
 import { ProfileActions } from '../../redux/profile/actions'
 import { IRootReducer } from '../../redux/store/rootReducer'
@@ -21,7 +20,7 @@ export const ProfileInfoContainer: React.FC = () => {
     <>
       {profileInfo ? (
         <ProfileInfo {...profileInfo} />
-      ): <Error404Page />}
+      ): <></>}
     </>
   )
 }

@@ -94,8 +94,8 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({ avatarUrl }) => {
     if(response) {
       if(response.status === 201) {
         setVisible(false)
+        message.success('Avatar updated!')
         window.location.reload()
-        message.success(response.data.message)
       }else {
         message.error(response.data.message)
       }

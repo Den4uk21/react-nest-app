@@ -15,6 +15,7 @@ function* GetProfileWorker(action: Action<string>) {
       yield put(ProfileActions.pushProfile(data))
     }else {
       message.error(data.message)
+      window.location.replace('/error')
     }
   }catch(err) {
     message.error('Failed to get profile')

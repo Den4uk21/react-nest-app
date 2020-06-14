@@ -14,7 +14,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitValues }) =>
   const [form] = Form.useForm()
 
   const onFinish = (values: any) => {
-    if(form.getFieldValue('password') !== form.getFieldValue('confirm-password')) {
+    if(form.getFieldValue('password') !== form.getFieldValue('confirmPassword')) {
       message.error('Two passwords are different!')
     }else {
       onSubmitValues(values)
@@ -50,21 +50,19 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitValues }) =>
         name="password"
         rules={[{ required: true, message: 'Please input your Password!' }]}
       >
-        <Input
+        <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
           placeholder="Password"
         />
       </Form.Item>
       <Form.Item
-        name="confirm-password"
+        name="confirmPassword"
         rules={[
           { required: true, message: 'Please confirm your Password!' },
         ]}
       >
-        <Input
+        <Input.Password
           prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
           placeholder="Confirm Password"
         />
       </Form.Item>
