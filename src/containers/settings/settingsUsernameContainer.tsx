@@ -8,7 +8,7 @@ import { IUpdateUsername } from '../../types/settings/types'
 
 export const SettingsUsernameContainer: React.FC = () => {
   const dispatch = useDispatch()
-  const userName = JSON.parse(localStorage.auth_tokens).userName
+  const { userName } = JSON.parse(localStorage.auth_tokens)
 
   const onSubmitValues = (values: IUpdateUsername) => {
     dispatch(SettingsActions.updateUsername(values))

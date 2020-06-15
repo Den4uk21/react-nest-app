@@ -23,9 +23,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmitValues }) =>
 
   return (
     <Form
-      name="normal_register"
-      className="register-form"
-      initialValues={{ remember: true }}
+      name="register"
+      className="register-form auth"
       onFinish={onFinish}
       form={form}
     >

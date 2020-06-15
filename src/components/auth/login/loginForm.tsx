@@ -17,9 +17,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmitValues }) => {
 
   return (
     <Form
-      name="normal_login"
-      className="login-form"
-      initialValues={{ remember: true }}
+      name="login"
+      className="login-form auth"
       onFinish={onFinish}
     >
       <Form.Item

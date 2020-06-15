@@ -5,8 +5,6 @@ import { LoginForm } from '../../../components/auth/login/loginForm'
 import { ILogin } from '../../../types/auth/types'
 import { AuthActions } from '../../../redux/auth/actions'
 
-import '../styles.sass'
-
 export const LoginFormContainer: React.FC = () => {
   const dispatch = useDispatch()
 
@@ -15,8 +13,6 @@ export const LoginFormContainer: React.FC = () => {
   }
 
   return (
-    <div className="login-form-container">
-      <LoginForm onSubmitValues={onSubmitValues} />
-    </div>
+    <LoginForm onSubmitValues={onSubmitValues} />
   )
 }

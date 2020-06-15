@@ -18,7 +18,7 @@ export const SettingsUsername: React.FC<SettingsUsernameProps> = ({ userName, on
     <section className="settings-username settings">
       <h1 className="title">Update Username</h1>
       <hr />
-      <span className="username">Your name: {userName}</span>
+      <div className="username info">Your name: <b>{userName}</b></div>
 
       <Form
         name="update_username"

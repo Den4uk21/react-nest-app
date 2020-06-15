@@ -10,6 +10,8 @@ interface IHeaderProps {
 }
 
 export const Header: React.FC<IHeaderProps> = ({ isAuth }) => {
+  const { userName } = JSON.parse(isAuth)
+
   const onExitClick = () => {
     removeTokens()
     window.location.replace('/')
@@ -23,7 +25,7 @@ export const Header: React.FC<IHeaderProps> = ({ isAuth }) => {
           isAuth
             ? (
               <>
-                <Button ghost><NavLink to={`/profile/${JSON.parse(isAuth).userName}`}>Profile</NavLink></Button>
+                <Button ghost><NavLink to={`/profile/${userName}`}>Profile</NavLink></Button>
                 <Button ghost><NavLink to="/new-question">Ask a Questions</NavLink></Button>
                 <Button ghost><NavLink to="/settings/profile">Settings</NavLink></Button>
 

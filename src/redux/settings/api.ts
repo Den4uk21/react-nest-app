@@ -57,6 +57,19 @@ export const updateUsernameApi = async (payload: IUpdateUsername) => {
   }
 }
 
+export const sendChangeEmailApi = async () => {
+  const data = await fetchWithAuth(SettingsUrls.sendChangeEmailURL, {
+    method: 'POST'
+  })
+
+  if(data) {
+    return {
+      status: await data.status,
+      data: await data.json()
+    }
+  }
+}
+
 export const changePassApi = async (payload: IChangePassword) => {
   const data = await fetchWithAuth(SettingsUrls.changePassURL, {
     method: 'PUT',

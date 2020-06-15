@@ -5,8 +5,6 @@ import { RegisterForm } from '../../../components/auth/register/registerForm'
 import { IRegister } from '../../../types/auth/types'
 import { AuthActions } from '../../../redux/auth/actions'
 
-import '../styles.sass'
-
 export const RegisterFormContainer: React.FC = () => {
   const dispatch = useDispatch()
 
@@ -15,8 +13,6 @@ export const RegisterFormContainer: React.FC = () => {
   }
 
   return (
-    <div className="register-form-container">
-      <RegisterForm onSubmitValues={onSubmitValues} />
-    </div>
+    <RegisterForm onSubmitValues={onSubmitValues} />
   )
 }

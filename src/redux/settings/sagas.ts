@@ -5,7 +5,7 @@ import { message } from 'antd'
 import { SettingsActions } from './actions'
 import { changeUsername } from '../assets/authApi'
 
-import { updateProfileApi, changePassApi, updateUsernameApi } from './api'
+import { updateProfileApi, changePassApi, updateUsernameApi, sendChangeEmailApi } from './api'
 import { IUpdateProfile, IChangePassword, IUpdateUsername } from '../../types/settings/types'
 
 function* UpdateProfileWorker(action: Action<IUpdateProfile>) {
@@ -40,6 +40,21 @@ function* UpdateUsernameWorker(action: Action<IUpdateUsername>) {
   }
 }
 
+function* SendChangeEmailWorker() {
+  try {
+    const { status, data } = yield call(sendChangeEmailApi)
+   
+    if(status === 201) {
+      message.success('Successfully sent email to change email!')
+    }else {
+      message.error(data.message)
+    }
+  }catch(err) {
+    message.error('Failed to send change email!')
+    console.log(err)
+  }
+}
+
 function* ChangePassWorker(action: Action<IChangePassword>) {
   try {
     const { status, data } = yield call(changePassApi, action.payload)
@@ -58,5 +73,6 @@ function* ChangePassWorker(action: Action<IChangePassword>) {
 export default function* watchSettings() {
   yield takeLatest(SettingsActions.Type.UPDATE_PROFILE, UpdateProfileWorker)
   yield takeLatest(SettingsActions.Type.UPDATE_USERNAME, UpdateUsernameWorker)
+  yield takeLatest(SettingsActions.Type.SEND_CHANGE_EMAIL, SendChangeEmailWorker)
   yield takeLatest(SettingsActions.Type.CHANGE_PASSWORD, ChangePassWorker)
 }

@@ -5,9 +5,16 @@ const registerURL = `${BE_APP_URL}/auth/register`
 const tokensURL = `${BE_APP_URL}/auth/update-tokens`
 const confirmURL = `${BE_APP_URL}/auth/confirm`
 
+const changeEmailURL = `${BE_APP_URL}/profile/change-email`
+const sendChangePassURL = `${BE_APP_URL}/profile/send-change-pass`
+const changeForgotPassURL = `${BE_APP_URL}/profile/change-forgot-pass`
+
 export const AuthUrls = {
   loginURL,
   registerURL,
   tokensURL,
-  confirmURL
+  confirmURL,
+  changeEmailURL,
+  sendChangePassURL,
+  changeForgotPassURL
 }

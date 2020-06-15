@@ -15,3 +15,13 @@ export interface IRegister {
   email: string,
   password: string
 }
+
+export interface IChangeEmail {
+  token: string,
+  email: string
+}
+
+export interface IChangeForgotPass {
+  token: string,
+  password: string
+}
