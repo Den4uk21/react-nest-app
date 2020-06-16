@@ -5,6 +5,7 @@ import watchMain from '../main/sagas'
 import watchQuestionAnswer from '../question-answer/sagas'
 import watchProfile from '../profile/sagas'
 import watchSettings from '../settings/sagas'
+import watchNewQuestion from '../new-question/sagas'
 
 export default function* rootSaga() {
     yield all([
@@ -12,6 +13,7 @@ export default function* rootSaga() {
         watchMain(),
         watchQuestionAnswer(),
         watchProfile(),
-        watchSettings()
+        watchSettings(),
+        watchNewQuestion()
     ])
 }

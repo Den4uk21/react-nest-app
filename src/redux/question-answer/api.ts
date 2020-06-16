@@ -1,6 +1,7 @@
 import { QuestionAnswerUrls } from '../../types/question-answer/constants'
-import { IGetAnswers } from '../../types/question-answer/types'
+import { IGetAnswers, INewAnswer } from '../../types/question-answer/types'
 import { fetchWithAuth } from '../assets/authApi'
+import { ContentType } from '../assets/utils'
 
 export const getQuestionInfoApi = async (questionId: string) => {
   const data = await fetch(QuestionAnswerUrls.getQuestionInfoURL + questionId)
@@ -25,10 +26,23 @@ export const updateRatingApi = async (answerId: string) => {
     method: 'PUT'
   })
 
-  if(data) {
-    return {
-      status: await data.status,
-      data: await data.json()
-    }
+  return {
+    status: await data.status,
+    data: await data.json()
+  }
+}
+
+export const newAnswerApi = async ({ questionId, answer }: INewAnswer) => {
+  const data = await fetchWithAuth(QuestionAnswerUrls.newAnswerURL(questionId), {
+    method: 'POST',
+    headers: {
+      'Content-Type': ContentType.APPLICATION_JSON
+    },
+    body: JSON.stringify({ answer })
+  })
+
+  return {
+    status: await data.status,
+    data: await data.json()
   }
 }

@@ -20,7 +20,6 @@ export const CheckEmailForm: React.FC<CheckEmailFormProps> = ({ onSubmitValues }
       onFinish={onFinish}
     >
       <Form.Item
-        name="main-label"
         className="main-label"
       >
         <h2>Check Email</h2>

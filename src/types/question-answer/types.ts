@@ -32,3 +32,8 @@ export interface IGetAnswers {
   questionId: string,
   page?: number
 }
+
+export interface INewAnswer {
+  questionId: string,
+  answer: string
+}

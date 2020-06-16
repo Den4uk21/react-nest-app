@@ -22,7 +22,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmitValues }) => {
       onFinish={onFinish}
     >
       <Form.Item
-        name="main-label"
         className="main-label"
       >
         <h2>Sign In</h2>

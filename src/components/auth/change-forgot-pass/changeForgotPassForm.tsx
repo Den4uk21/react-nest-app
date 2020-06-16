@@ -27,7 +27,6 @@ export const ChangeForgotPassForm: React.FC<ChangeForgotPassFormProps> = ({ onSu
       form={form}
     >
       <Form.Item
-        name="main-label"
         className="main-label"
       >
         <h2>Change Password</h2>

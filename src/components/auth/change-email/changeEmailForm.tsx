@@ -20,7 +20,6 @@ export const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({ onSubmitValues
       onFinish={onFinish}
     >
       <Form.Item
-        name="main-label"
         className="main-label"
       >
         <h2>Change Email</h2>
