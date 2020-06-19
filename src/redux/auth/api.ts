@@ -1,6 +1,7 @@
 import { IRegister, ILogin, IChangeEmail, IChangeForgotPass } from '../../types/auth/types'
 import { AuthUrls } from '../../types/auth/constants'
 import { ContentType } from '../assets/utils'
+import { fetchWithAuth } from '../assets/authApi'
 
 export const signUpApi = async (payload: IRegister) => {
   const data = await fetch(AuthUrls.registerURL,
@@ -42,6 +43,15 @@ export const confirmApi = async (token: string) => {
       method: 'PUT' 
     }
   )
+
+  return {
+    status: await data.status,
+    data: await data.json()
+  }
+}
+
+export const sendConfirmApi = async () => {
+  const data = await fetchWithAuth(AuthUrls.sendConfirmURL, { method: 'POST' })
 
   return {
     status: await data.status,

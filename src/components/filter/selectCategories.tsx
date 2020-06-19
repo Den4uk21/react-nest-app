@@ -3,6 +3,8 @@ import { Select, Button } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import { SelectValue } from 'antd/lib/select'
 
+import { AllCategories } from '../../types/constants'
+
 const { Option } = Select
 
 interface ISelectCategoriesProps {
@@ -12,7 +14,6 @@ interface ISelectCategoriesProps {
 
 export const SelectCategories: React.FC<ISelectCategoriesProps> = ({ onSearchClick, setCategories }) => {
   const [value, setValue] = useState<string[]>([])
-  const allCategories = ['Math', 'Technology']
 
   const onSelectChange = (value: SelectValue) => {
     setValue(value as string[])
@@ -30,7 +31,7 @@ export const SelectCategories: React.FC<ISelectCategoriesProps> = ({ onSearchCli
         placeholder="Select categories..."
         onChange={onSelectChange}
       >
-        {allCategories.map((item, index) => (
+        {AllCategories.map((item, index) => (
           <Option key={index} value={item}>{item}</Option>
         ))}
       </Select>

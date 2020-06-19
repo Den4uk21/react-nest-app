@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tag } from 'antd'
 
+import { DropDownSettings } from '../common/dropDownSettings'
+import { DeleteQuestionModal } from '../modals/deleteQuestionModal'
+import { ChangeQuestionModal } from '../modals/changeQuestionModal'
 import { IQuestion } from '../../types/question-answer/types'
+
 import './styles.sass'
 
-export const QuestionInfo : React.FC<IQuestion> = ({ id, userName, avatarUrl, title, descriptions, categories, date }) => {
+export const QuestionInfo: React.FC<IQuestion> = ({ id, userName, avatarUrl, title, descriptions, categories, date }) => {
+  const [changeVisible, setChangeVisible] = useState<boolean>(false)
+  const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
+  
+  const isUser = userName === JSON.parse(localStorage.auth_tokens).userName
+
   return (
     <section className="question-info">
       <div className="user-info">
@@ -15,6 +24,12 @@ export const QuestionInfo : React.FC<IQuestion> = ({ id, userName, avatarUrl, ti
           <h3>{userName}</h3>
           <time>{date}</time>
         </div>
+
+        {isUser ? (
+          <div className="question-settings">
+            <DropDownSettings onChangeClick={() => setChangeVisible(true)} onDeleteClick={() => setDeleteVisible(true)} />
+          </div>
+        ): <></>}
       </div>
 
       <div className="question-block">
@@ -32,6 +47,9 @@ export const QuestionInfo : React.FC<IQuestion> = ({ id, userName, avatarUrl, ti
           <Tag color="#595959" key={index}>{category}</Tag>
         ))}
       </div>
+
+      <ChangeQuestionModal questionId={id} visible={changeVisible} setVisible={setChangeVisible} />
+      <DeleteQuestionModal questionId={id} visible={deleteVisible} setVisible={setDeleteVisible} />
     </section>
   )
 }

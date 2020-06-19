@@ -5,7 +5,7 @@ import { message } from 'antd'
 import { AuthActions } from './actions'
 import { IRegister, ILogin, IChangeEmail, IChangeForgotPass } from '../../types/auth/types'
 
-import { signUpApi, signInApi, confirmApi, changeEmailApi, sendChangePassApi, changeForgotPassApi } from './api'
+import { signUpApi, signInApi, confirmApi, changeEmailApi, sendChangePassApi, changeForgotPassApi, sendConfirmApi } from './api'
 import { saveTokens } from '../assets/authApi'
 
 function* SignUpWorker(action: Action<IRegister>) {
@@ -50,6 +50,21 @@ function* ConfirmWorker(action: Action<string>) {
     }
   }catch(err) {
     message.error('Failed to Confirm Account!')
+    console.log(err)
+  }
+}
+
+function* SendConfirmWorker() {
+  try {
+    const { status, data } = yield call(sendConfirmApi)
+
+    if(status === 201) {
+      message.success('Successfully sent confirmation!')
+    }else {
+      message.error(data.message)
+    }
+  }catch(err) {
+    message.error('Failed to send confirmation your Account!')
     console.log(err)
   }
 }
@@ -106,6 +121,7 @@ export default function* watchAuth() {
   yield takeLatest(AuthActions.Type.SIGN_UP, SignUpWorker)
   yield takeLatest(AuthActions.Type.SIGN_IN, SignInWorker)
   yield takeLatest(AuthActions.Type.CONFIRM, ConfirmWorker)
+  yield takeLatest(AuthActions.Type.SEND_CONFIRM, SendConfirmWorker)
   yield takeLatest(AuthActions.Type.CHANGE_EMAIL, ChangeEmailWorker)
   yield takeLatest(AuthActions.Type.SEND_CHANGE_PASS, SendChangePassWorker)
   yield takeLatest(AuthActions.Type.CHANGE_FORGOT_PASS, ChangeForgotPassWorker)

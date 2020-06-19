@@ -3,3 +3,7 @@ export interface INewQuestion {
   descriptions: string,
   categories: string[]
 }
+
+export interface IChangeQuestion extends INewQuestion {
+  questionId: string
+}

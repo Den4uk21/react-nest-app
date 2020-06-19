@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import { AnswersList } from '../../components/answer/answersList'
 
+import { NewAnswerActions } from '../../redux/new-answer/actions'
 import { QuestionAnswerActions } from '../../redux/question-answer/actions'
 import { IRootReducer } from '../../redux/store/rootReducer'
 
@@ -17,7 +18,7 @@ export const AnswersListContainer: React.FC = () => {
   }, [dispatch, questionId])
 
   const updateRating = (answerId: string) => {
-    dispatch(QuestionAnswerActions.updateRating(answerId))
+    dispatch(NewAnswerActions.updateRating(answerId))
     dispatch(QuestionAnswerActions.getAnswers({ questionId }))
   }
 

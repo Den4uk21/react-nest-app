@@ -2,6 +2,7 @@ import React from 'react'
 import { Form, Input, Button, Select } from 'antd'
 
 import { INewQuestion } from '../../types/new-question/types'
+import { AllCategories } from '../../types/constants'
 import './styles.sass'
 
 const { Option } = Select
@@ -11,8 +12,6 @@ interface NewQuestionFormProps {
 }
 
 export const NewQuestionForm: React.FC<NewQuestionFormProps> = ({ onSubmitValues }) => {
-  const allCategories = ['Math', 'Technology']
-
   const onFinish = (values: any) => {
     onSubmitValues(values)
   }
@@ -48,7 +47,7 @@ export const NewQuestionForm: React.FC<NewQuestionFormProps> = ({ onSubmitValues
             mode="multiple"
             placeholder="Select categories..."
           >
-            {allCategories.map((item, index) => (
+            {AllCategories.map((item, index) => (
               <Option key={index} value={item}>{item}</Option>
             ))}
           </Select>

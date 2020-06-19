@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'antd'
 import { CheckCircleTwoTone } from '@ant-design/icons'
 
+import { DropDownSettings } from '../common/dropDownSettings'
+import { DeleteAnswerModal } from '../modals/deleteAnswerModal'
+import { ChangeAnswerModal } from '../modals/changeAnswerModal'
 import { IAnswer } from '../../types/question-answer/types'
 
 interface IAnswerProps extends IAnswer {
@@ -10,6 +13,11 @@ interface IAnswerProps extends IAnswer {
 }
 
 export const Answer: React.FC<IAnswerProps> = ({ id, userName, avatarUrl, answer, rating, isAnswer, date, onIncreaseRating }) => {
+  const [changeVisible, setChangeVisible] = useState<boolean>(false)
+  const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
+
+  const isUser = userName === JSON.parse(localStorage.auth_tokens).userName
+
   return (
     <div className="answer">
       <picture className="user-avatar">
@@ -33,9 +41,18 @@ export const Answer: React.FC<IAnswerProps> = ({ id, userName, avatarUrl, answer
         </Button>
       </div>
 
+      {isUser ? (
+        <div className="answer-settings">
+          <DropDownSettings onChangeClick={() => setChangeVisible(true)} onDeleteClick={() => setDeleteVisible(true)} />
+        </div>
+      ): <></>}
+
       {isAnswer ? (
         <CheckCircleTwoTone twoToneColor="#52c41a" className="is-answer-icon" />
       ): <></>}
+
+      <ChangeAnswerModal answerId={id} visible={changeVisible} setVisible={setChangeVisible} />
+      <DeleteAnswerModal questionId={id} visible={deleteVisible} setVisible={setDeleteVisible} />
     </div>
   )
 }

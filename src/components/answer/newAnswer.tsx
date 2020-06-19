@@ -37,8 +37,8 @@ export const NewAnswer: React.FC<NewAnswerProps> = ({ onSubmitValues }) => {
             </div>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" className="new-question-btn">
-                Create Question
+              <Button type="primary" htmlType="submit" className="new-answer-btn">
+                Create Answer
               </Button>
             </Form.Item>
           </Form>

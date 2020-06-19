@@ -16,6 +16,7 @@ export const AuthWarningModal: React.FC<AuthWarningModalProps> = ({ visible, set
     <Modal
       visible={visible}
       title="Warning!"
+      className="auth-warning"
       onCancel={onCancel}
       footer={[
         <Button key="cansel" onClick={onCancel}>
