@@ -36,7 +36,7 @@ export const DeleteAnswerModal: React.FC<DeleteAnswerModalProps> = ({ questionId
         </Button>,
       ]}
     >
-      <span>Clicking "Delete Answer" will delete the answer without the possibility of recovery.</span>
+      <span>Clicking "Delete answer" will delete the answer without the possibility of recovery.</span>
     </Modal>
   )
 }

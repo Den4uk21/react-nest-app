@@ -8,7 +8,7 @@ export const FilterContainer: React.FC = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(MainActions.getAllQuestions({}))
+    dispatch(MainActions.getAllQuestions({ type: 'new' }))
   }, [dispatch])
 
   const addFilterParams = (type: string, categories: string[]) => {

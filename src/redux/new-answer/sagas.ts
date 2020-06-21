@@ -5,8 +5,8 @@ import { message } from 'antd'
 import { NewAnswerActions } from './actions'
 import { QuestionAnswerActions } from '../question-answer/actions'
 
-import { updateRatingApi, newAnswerApi, deleteAnswersApi, changeAnswerApi } from './api'
-import { INewAnswer, IChangeAnswer } from '../../types/new-answer/types'
+import { updateRatingApi, newAnswerApi, deleteAnswersApi, changeAnswerApi, isAnswersApi } from './api'
+import { INewAnswer, IChangeAnswer, IIsAnswer } from '../../types/new-answer/types'
 
 function* NewAnswerWorker(action: Action<INewAnswer>) {
   try {
@@ -72,9 +72,26 @@ function* DeleteAnswerWorker(action: Action<string>) {
   }
 }
 
+function* IsAnswerWorker(action: Action<IIsAnswer>) {
+  try {
+    const { status, data } = yield call(isAnswersApi, action.payload)
+    const questionId = window.location.pathname.split('/')[2]
+
+    if(status === 200) {
+      yield put(QuestionAnswerActions.getAnswers({ questionId }))
+    }else {
+      message.error(data.message)
+    }
+  }catch(err) {
+    message.error('Failed to confirm answer!')
+    console.log(err)
+  }
+}
+
 export default function* watchNewAnswer() {
   yield takeLatest(NewAnswerActions.Type.UPDATE_RATING, UpdateRatingWorker)
   yield takeLatest(NewAnswerActions.Type.NEW_ANSWER, NewAnswerWorker)
   yield takeLatest(NewAnswerActions.Type.CHANGE_ANSWER, ChangeAnswerWorker)
   yield takeLatest(NewAnswerActions.Type.DELETE_ANSWER, DeleteAnswerWorker)
+  yield takeLatest(NewAnswerActions.Type.IS_ANSWER, IsAnswerWorker)
 }

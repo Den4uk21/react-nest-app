@@ -26,11 +26,33 @@ section.answers-list
 
   .answer
     width: 70vw
-    padding: 5px 5px 5px 10px
+    padding: 5px 10px 5px 10px
     border-radius: 10px
     border: 1px solid #262626
     display: flex
     color: #434343
+
+    .status-block
+      display: flex
+      flex-direction: column
+      align-items: center
+
+      .is-answer
+        &.icon
+          margin-top: 10px
+
+          svg
+            width: 40px
+            height: 40px
+            color: #52c41a
+
+        &.btn
+          margin-top: 10px
+
+          svg
+            width: 30px
+            height: 30px
+            cursor: pointer
 
     .answer-block
       margin-left: 10px
@@ -45,44 +67,38 @@ section.answers-list
         h3
           margin: 0
 
-    .rating
+    .settings-block
       display: flex
       flex-direction: column
-      justify-content: center
       align-items: center
-      margin-right: 10px
+      margin-left: 10px
 
-      .amount
-        width: 50px
-        text-align: center
-        border: 1px solid #262626
-        margin-bottom: 5px
-        border-radius: 5px
+      .rating
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
 
-      button
-        padding: 2px
-        border: 1px solid #262626
-        color: #262626
-        border-radius: 5px
+        .amount
+          width: 50px
+          text-align: center
+          border: 1px solid #262626
+          margin-bottom: 5px
+          border-radius: 5px
 
-    .answer-settings
-      display: flex
-      align-items: center
-      cursor: pointer
-      margin-right: 10px
+        button
+          padding: 2px
+          border: 1px solid #262626
+          color: #262626
+          border-radius: 5px
 
-      svg
-        width: 30px
-        height: 30px
+      .answer-settings
+        cursor: pointer
+        margin-top: 10px
 
-    .is-answer-icon
-      display: flex
-      align-items: center
-      margin-right: 10px
-
-      svg
-        width: 40px
-        height: 40px
+        svg
+          width: 30px
+          height: 30px
 
 section.new-answer
   button

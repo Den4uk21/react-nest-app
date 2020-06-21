@@ -36,7 +36,7 @@ export const DeleteQuestionModal: React.FC<DeleteQuestionModalProps> = ({ questi
         </Button>,
       ]}
     >
-      <span>Clicking "Delete Answer" will delete the question without the possibility of recovery.</span>
+      <span>Clicking "Delete question" will delete the question without the possibility of recovery.</span>
     </Modal>
   )
 }

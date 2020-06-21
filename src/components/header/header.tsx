@@ -5,12 +5,8 @@ import { Button, Popconfirm } from 'antd'
 import { removeTokens } from '../../redux/assets/authApi'
 import './styles.sass'
 
-interface IHeaderProps {
-  isAuth: string
-}
-
-export const Header: React.FC<IHeaderProps> = ({ isAuth }) => {
-  const { userName } = JSON.parse(isAuth)
+export const Header: React.FC = () => {
+  const isAuth = localStorage.auth_tokens
 
   const onExitClick = () => {
     removeTokens()
@@ -25,7 +21,7 @@ export const Header: React.FC<IHeaderProps> = ({ isAuth }) => {
           isAuth
             ? (
               <>
-                <Button ghost><NavLink to={`/profile/${userName}`}>Profile</NavLink></Button>
+                <Button ghost><NavLink to={`/profile/${JSON.parse(isAuth).userName}`}>Profile</NavLink></Button>
                 <Button ghost><NavLink to="/new-question">Ask a Questions</NavLink></Button>
                 <Button ghost><NavLink to="/settings/profile">Settings</NavLink></Button>
 

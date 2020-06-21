@@ -11,6 +11,7 @@ import { IRootReducer } from '../../redux/store/rootReducer'
 export const AnswersListContainer: React.FC = () => {
   const dispatch = useDispatch()
   const answersList = useSelector((state: IRootReducer) => state.question_answer.answers.answersList)
+  const userNameQuestion = useSelector((state: IRootReducer) => state.question_answer.questionsInfo?.userName)
   const { questionId } = useParams()
 
   useEffect(() => {
@@ -22,7 +23,16 @@ export const AnswersListContainer: React.FC = () => {
     dispatch(QuestionAnswerActions.getAnswers({ questionId }))
   }
 
+  const onIsAnswerClick = (answerId: string) => {
+    dispatch(NewAnswerActions.isAnswer({ questionId, answerId }))
+  }
+
   return (
-    <AnswersList answersList={answersList} updateRating={updateRating} />
+    <AnswersList 
+      answersList={answersList} 
+      updateRating={updateRating} 
+      onIsAnswerClick={onIsAnswerClick} 
+      userNameQuestion={userNameQuestion} 
+    />
   )
 }

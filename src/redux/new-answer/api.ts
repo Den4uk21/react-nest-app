@@ -2,7 +2,7 @@ import { QuestionAnswerUrls } from '../../types/question-answer/constants'
 import { NewAnswerUrls } from '../../types/new-answer/constants'
 import { fetchWithAuth } from '../assets/authApi'
 import { ContentType } from '../assets/utils'
-import { INewAnswer, IChangeAnswer } from '../../types/new-answer/types'
+import { INewAnswer, IChangeAnswer, IIsAnswer } from '../../types/new-answer/types'
 
 export const newAnswerApi = async ({ questionId, answer }: INewAnswer) => {
   const data = await fetchWithAuth(NewAnswerUrls.newAnswerURL(questionId), {
@@ -48,6 +48,17 @@ export const changeAnswerApi = async ({ answerId, answer }: IChangeAnswer) => {
 export const deleteAnswersApi = async (answerId: string) => {
   const data = await fetchWithAuth(QuestionAnswerUrls.getAnswersURL + answerId, {
     method: 'DELETE'
+  })
+
+  return {
+    status: await data.status,
+    data: await data.json()
+  }
+}
+
+export const isAnswersApi = async ({ questionId, answerId }: IIsAnswer) => {
+  const data = await fetchWithAuth(NewAnswerUrls.isAnswerURL(questionId, answerId), {
+    method: 'PUT'
   })
 
   return {

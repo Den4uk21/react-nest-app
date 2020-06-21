@@ -8,10 +8,12 @@ import './styles.sass'
 
 interface IAnswersListProps {
   answersList: IAnswer[],
-  updateRating: (answerId: string) => void
+  updateRating: (answerId: string) => void,
+  onIsAnswerClick: (answerId: string) => void,
+  userNameQuestion: string | undefined
 }
 
-export const AnswersList: React.FC<IAnswersListProps> = ({ answersList, updateRating }) => {
+export const AnswersList: React.FC<IAnswersListProps> = ({ answersList, updateRating, onIsAnswerClick, userNameQuestion }) => {
   const [visibleWarning, setVisibleWarning] = useState<boolean>(false)
   const isAuth = localStorage.getItem('auth_tokens')
 
@@ -33,7 +35,7 @@ export const AnswersList: React.FC<IAnswersListProps> = ({ answersList, updateRa
       <ul className="answers-list confirm">
         {confirmedAnswersList.map((answer) => (
           <li key={answer.id}>
-            <Answer {...answer} onIncreaseRating={onIncreaseRating} />
+            <Answer {...answer} onIncreaseRating={onIncreaseRating} onIsAnswerClick={onIsAnswerClick} userNameQuestion={userNameQuestion} />
           </li>
         ))}
       </ul>
@@ -43,7 +45,7 @@ export const AnswersList: React.FC<IAnswersListProps> = ({ answersList, updateRa
       <ul className="answers-list">
         {notConfirmedAnswersList.map((answer) => (
           <li key={answer.id}>
-            <Answer {...answer} onIncreaseRating={onIncreaseRating} />
+            <Answer {...answer} onIncreaseRating={onIncreaseRating} onIsAnswerClick={onIsAnswerClick} userNameQuestion={userNameQuestion} />
           </li>
         ))}
       </ul>

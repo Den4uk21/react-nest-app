@@ -16,7 +16,7 @@ const App: React.FC = () => {
 
   return (
     <Router history={history}>
-      <Header isAuth={isAuth} />
+      <Header />
       <Suspense fallback={<Fallback />}>
         {
           isAuth
