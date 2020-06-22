@@ -20,7 +20,6 @@ export const AnswersListContainer: React.FC = () => {
 
   const updateRating = (answerId: string) => {
     dispatch(NewAnswerActions.updateRating(answerId))
-    dispatch(QuestionAnswerActions.getAnswers({ questionId }))
   }
 
   const onIsAnswerClick = (answerId: string) => {

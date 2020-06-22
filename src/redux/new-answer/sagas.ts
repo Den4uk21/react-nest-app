@@ -28,8 +28,11 @@ function* NewAnswerWorker(action: Action<INewAnswer>) {
 function* UpdateRatingWorker(action: Action<string>) {
   try {
     const { status, data } = yield call(updateRatingApi, action.payload)
+    const questionId = window.location.pathname.split('/')[2]
 
-    if(status !== 200) {
+    if(status === 200) {
+      yield put(QuestionAnswerActions.getAnswers({ questionId }))
+    }else {
       message.error(data.message)
     }
   }catch(err) {
