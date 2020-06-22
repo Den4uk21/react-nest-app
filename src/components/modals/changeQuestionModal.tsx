@@ -19,6 +19,8 @@ interface ChangeQuestionModalProps {
 export const ChangeQuestionModal: React.FC<ChangeQuestionModalProps> = ({ questionId, visible, setVisible }) => {
   const dispatch = useDispatch()
   const previousChanges = useSelector((state: IRootReducer) => state.question_answer.questionsInfo)
+  const validCategories = previousChanges?.categories.find((item) => item === 'All') ?
+    [] : previousChanges?.categories
 
   const onFinish = (values: any) => {
     dispatch(NewQuestionActions.changeQuestion({ questionId, ...values}))
@@ -41,7 +43,10 @@ export const ChangeQuestionModal: React.FC<ChangeQuestionModalProps> = ({ questi
         name="change"
         className="change-question-form"
         onFinish={onFinish}
-        initialValues={previousChanges ? previousChanges : undefined}
+        initialValues={previousChanges ? 
+          {...previousChanges, categories: validCategories } 
+          : undefined
+        }
       >
         <div className="form-item">
           <b>Title</b>

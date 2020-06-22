@@ -3,10 +3,10 @@ import { ContentType } from '../assets/utils'
 
 import { IFilterQuestions } from '../../types/main/types'
 
-export const getAllQuestionsApi = async ({ type, categories, page }: IFilterQuestions) => {
+export const getAllQuestionsApi = async ({ type, categories, page = 1 }: IFilterQuestions) => {
   const validCategories = categories?.length === 0 ? null : categories
 
-  const data = await fetch(MainUrls.getAllQuestionsURL + `?page=${page}`, {
+  const data = await fetch(MainUrls.getAllQuestionsURL(page), {
     method: 'POST',
     headers: {
       'Content-type': ContentType.APPLICATION_JSON

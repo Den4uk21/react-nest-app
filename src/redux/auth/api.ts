@@ -38,7 +38,7 @@ export const signInApi = async (payload: ILogin) => {
 }
 
 export const confirmApi = async (token: string) => {
-  const data = await fetch(AuthUrls.confirmURL + token, 
+  const data = await fetch(AuthUrls.confirmURL(token), 
     { 
       method: 'PUT' 
     }
@@ -60,7 +60,7 @@ export const sendConfirmApi = async () => {
 }
 
 export const changeEmailApi = async ({ token, email }: IChangeEmail) => {
-  const data = await fetch(AuthUrls.changeEmailURL + token,
+  const data = await fetch(AuthUrls.changeEmailURL(token),
     {
       method: 'PUT',
       headers: {
@@ -94,7 +94,7 @@ export const sendChangePassApi = async (email: string) => {
 }
 
 export const changeForgotPassApi = async ({ token, password }: IChangeForgotPass) => {
-  const data = await fetch(AuthUrls.changeForgotPassURL + token,
+  const data = await fetch(AuthUrls.changeForgotPassURL(token),
     {
       method: 'PUT',
       headers: {

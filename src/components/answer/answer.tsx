@@ -14,7 +14,9 @@ interface IAnswerProps extends IAnswer {
   userNameQuestion: string | undefined
 }
 
-export const Answer: React.FC<IAnswerProps> = ({ id, userName, avatarUrl, answer, rating, isAnswer, date, onIncreaseRating, onIsAnswerClick, userNameQuestion }) => {
+export const Answer: React.FC<IAnswerProps> = ({ 
+  id, userName, avatarUrl, answer, rating, isAnswer, date, onIncreaseRating, onIsAnswerClick, userNameQuestion 
+}) => {
   const [changeVisible, setChangeVisible] = useState<boolean>(false)
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
 

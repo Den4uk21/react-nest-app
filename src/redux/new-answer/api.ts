@@ -20,7 +20,7 @@ export const newAnswerApi = async ({ questionId, answer }: INewAnswer) => {
 }
 
 export const updateRatingApi = async (answerId: string) => {
-  const data = await fetchWithAuth(NewAnswerUrls.updateRatingURL + answerId, {
+  const data = await fetchWithAuth(NewAnswerUrls.updateRatingURL(answerId), {
     method: 'PUT'
   })
 
@@ -31,7 +31,7 @@ export const updateRatingApi = async (answerId: string) => {
 }
 
 export const changeAnswerApi = async ({ answerId, answer }: IChangeAnswer) => {
-  const data = await fetchWithAuth(QuestionAnswerUrls.getAnswersURL + answerId, {
+  const data = await fetchWithAuth(QuestionAnswerUrls.getAnswersURL(answerId), {
     method: 'PUT',
     headers: {
       'Content-Type': ContentType.APPLICATION_JSON
@@ -46,7 +46,7 @@ export const changeAnswerApi = async ({ answerId, answer }: IChangeAnswer) => {
 }
 
 export const deleteAnswersApi = async (answerId: string) => {
-  const data = await fetchWithAuth(QuestionAnswerUrls.getAnswersURL + answerId, {
+  const data = await fetchWithAuth(QuestionAnswerUrls.getAnswersURL(answerId), {
     method: 'DELETE'
   })
 

@@ -25,7 +25,7 @@ export const newQuestionsApi = async ({ title, descriptions, categories }: INewQ
 export const changeQuestionApi = async ({ questionId, title, descriptions, categories }: IChangeQuestion) => {
   const validCategories = !categories || categories.length === 0 ? ['All'] : categories
 
-  const data = await fetchWithAuth(QuestionAnswerUrls.getQuestionInfoURL + questionId, {
+  const data = await fetchWithAuth(QuestionAnswerUrls.getQuestionInfoURL(questionId), {
     method: 'PUT',
     headers: {
       'Content-Type': ContentType.APPLICATION_JSON
@@ -40,7 +40,7 @@ export const changeQuestionApi = async ({ questionId, title, descriptions, categ
 }
 
 export const deleteQuestionApi = async (questionId: string) => {
-  const data = await fetchWithAuth(QuestionAnswerUrls.getQuestionInfoURL + questionId, {
+  const data = await fetchWithAuth(QuestionAnswerUrls.getQuestionInfoURL(questionId), {
     method: 'DELETE'
   })
 

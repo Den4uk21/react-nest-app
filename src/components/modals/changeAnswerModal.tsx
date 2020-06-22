@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Form, Input, Button } from 'antd'
 
 import { NewAnswerActions } from '../../redux/new-answer/actions'
-import './styles.sass'
 import { IRootReducer } from '../../redux/store/rootReducer'
+import './styles.sass'
 
 interface ChangeAnswerModalProps {
   answerId: string,
@@ -45,7 +45,7 @@ export const ChangeAnswerModal: React.FC<ChangeAnswerModalProps> = ({ answerId, 
           <b>Your answer</b>
           <Form.Item
             name="answer"
-            rules={[{ required: true, message: 'Please input answer!' }]}
+            rules={[{ required: true, message: 'Please input Answer!' }]}
           >
             <Input.TextArea />
           </Form.Item>
