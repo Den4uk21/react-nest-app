@@ -4,10 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { configModule } from './configure.root'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
-import { MailModule } from './mail/mail.module';
-import { ProfileModule } from './profile/profile.module';
-import { QuestionModule } from './question/question.module';
-import { AnswerModule } from './answer/answer.module';
+import { MailModule } from './mail/mail.module'
+import { ProfileModule } from './profile/profile.module'
+import { QuestionModule } from './question/question.module'
+import { AnswerModule } from './answer/answer.module'
 
 @Module({
   imports: [

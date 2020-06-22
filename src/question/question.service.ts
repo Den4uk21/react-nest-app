@@ -149,7 +149,7 @@ export class QuestionService {
         return questions.sort((a, b) => b.answers.length - a.answers.length)
 
       case questionTypeEnum.withoutAnswers:
-        return questions.filter((question) => question.answers.length === 0)
+        return questions.filter((question) => question.answers.length === 0).sort((a, b) => b.date - a.date)
     }
   }
 

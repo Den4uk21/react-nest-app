@@ -28,8 +28,8 @@ export class AuthController {
     return this.authService.login(checkUserDto)
   }
 
-  @Get('update-tokens')
   @UseGuards(AuthGuard('refresh-jwt'))
+  @Get('update-tokens')
   async updateTokens(@Request() req): Promise<ITokens> {
     return this.authService.updateTokens(req.user.userId)
   }
@@ -37,5 +37,11 @@ export class AuthController {
   @Put('confirm')
   async confirmAccount(@Query('token') token: string): Promise<IResponse> {
     return this.authService.confirmAccount(token)
+  }
+
+  @UseGuards(AuthGuard())
+  @Post('send-confirm')
+  async sendConfirmation(@Request() req): Promise<IResponse> {
+    return this.authService.sendConfirmation(req.user.userId)
   }
 }

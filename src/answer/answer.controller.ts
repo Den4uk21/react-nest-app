@@ -19,9 +19,9 @@ export class AnswerController {
   ) {}
 
   @UseGuards(AuthGuard())
-  @Post('new')
-  async createAnswer(@Request() req, @Body() createAnswerDto: CreateAnswerDto): Promise<IResponse> {
-    return this.answerService.createAnswer(req.user.userId, createAnswerDto)
+  @Post(':questionId/new')
+  async createAnswer(@Request() req, @Param('questionId') questionId: string, @Body() createAnswerDto: CreateAnswerDto): Promise<IResponse> {
+    return this.answerService.createAnswer(req.user.userId, questionId, createAnswerDto)
   }
 
   @Get(':questionId')

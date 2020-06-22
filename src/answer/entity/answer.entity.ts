@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 import { User } from '../../user/entity/user.entity'
 import { Question } from '../../question/entity/question.entity'
 
@@ -19,7 +19,7 @@ export class Answer {
   @Column({ type: 'bigint', default: Date.now() })
   date: number
 
-  @ManyToOne(type => Question, question => question.answers)
+  @ManyToOne(type => Question, question => question.answers, { onDelete: 'CASCADE' })
   question: Question
 
   @ManyToOne(type => User, user => user.answers)

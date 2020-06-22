@@ -49,7 +49,7 @@ export class MailService {
     const { email, userName, tokenPayload } = mailData
 
     const confirmToken = await this.generateConfirmToken(tokenPayload)
-    const confirmLink = `${this.clientAppUrl}/profile/change-email?token=${confirmToken}`
+    const confirmLink = `${this.clientAppUrl}/auth/change-email?token=${confirmToken}`
 
     await this.send({
       from: this.configService.get<string>('NODEMAILER_USER'),
@@ -66,7 +66,7 @@ export class MailService {
     const { email, userName, tokenPayload } = mailData
 
     const confirmToken = await this.generateConfirmToken(tokenPayload)
-    const confirmLink = `${this.clientAppUrl}/profile/change-password?token=${confirmToken}`
+    const confirmLink = `${this.clientAppUrl}/auth/change-password?token=${confirmToken}`
 
     await this.send({
       from: this.configService.get<string>('NODEMAILER_USER'),

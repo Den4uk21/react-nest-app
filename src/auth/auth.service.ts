@@ -33,7 +33,7 @@ export class AuthService {
     if(isExistsEmail || isExistsName) throw new HttpException('User exists', HttpStatus.BAD_REQUEST)
 
     const user = await this.userService.create(createUserDto)
-    await this.sendConfirmation(user)
+    await this.sendConfirmation(user.id)
 
     return { success: true }
   }
@@ -81,7 +81,9 @@ export class AuthService {
     return { success: true }
   }
 
-  private async sendConfirmation(user: User): Promise<void> {
+  async sendConfirmation(userId: string): Promise<IResponse> {
+    const user = await this.userService.findById(userId)
+
     const tokenPayload = {
       userId: user.id,
     }
@@ -91,6 +93,8 @@ export class AuthService {
       userName: user.userName,
       tokenPayload
     })
+
+    return { success: true }
   }
 
   private async generateAccessToken(data: ITokensData, options?: jwt.SignOptions): Promise<string> {

@@ -22,25 +22,41 @@ export class AnswerService {
     private readonly questionService: QuestionService 
   ) {}
 
-  async createAnswer(userId: string, createAnswerDto: CreateAnswerDto): Promise<IResponse> {
+  async createAnswer(userId: string, questionId: string, createAnswerDto: CreateAnswerDto): Promise<IResponse> {
     const user = await this.userService.findById(userId)
-    const question = await this.questionService.findById(createAnswerDto.questionId)
+    const question = await this.questionService.findById(questionId)
 
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
-    const answer = await this.answersRepository.create({ answer: createAnswerDto.answer , question, user })
+    const answer = await this.answersRepository.create({ answer: createAnswerDto.answer, question, user })
     await this.answersRepository.save(answer)
 
     return { success: true }
   }
 
   async getAnswers(page: number, questionId: string): Promise<IGetAnswerResponse> {
-    const question = await this.questionService.findById(questionId, { relations: ['answers', 'user'] })
+    const question = await this.questionService.findById(questionId, { relations: ['answers'] })
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
-    const { answers, user } = question
+    const { answers } = question
 
-    const responseAnswers = answers.map((answer) => {
+    const withAnswersList = answers.filter((answer) => answer.isAnswer === true)
+    const noAnswersList = answers.filter((answer) => answer.isAnswer === false)
+
+    const withRatingList = noAnswersList
+      .filter((answer) => answer.rating.length > 0)
+      .sort((a, b) => b.date - a.date)
+      .sort((a, b) => b.rating.length - a.rating.length)
+
+    const noRatingList = noAnswersList
+      .filter((answer) => answer.rating.length === 0)
+      .sort((a, b) => b.date - a.date)
+
+    const sortAnswers = [...withAnswersList, ...withRatingList, ...noRatingList]
+
+    const responseAnswers = await Promise.all(sortAnswers.map(async (answer) => {
+      const { user } = await this.answersRepository.findOne(answer.id, { relations: ['user'] })
+
       return {
         ...answer,
         rating: answer.rating.length,
@@ -48,10 +64,9 @@ export class AnswerService {
         avatarUrl: this.userService.getAvatar(user.avatarId),
         date: this.userService.getDate(answer.date)
       }
-    })
+    }))
 
-    const sortAnswers = responseAnswers.sort((a, b) => b.rating - a.rating).sort((a, b) => Number(b.isAnswer) - Number(a.isAnswer))
-    const validAnswers = this.questionService.paginationPages(page, sortAnswers)
+    const validAnswers = this.questionService.paginationPages(page, responseAnswers)
 
     return {
       answersList: validAnswers,
