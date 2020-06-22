@@ -8,10 +8,12 @@ import { AnswerPaginationContainer } from '../../containers/pagination/answerPag
 import './styles.sass'
 
 const QuestionAnswerPage: React.FC = () => {
+  const isAuth = localStorage.auth_tokens 
+
   return (
     <main className="question-answer-page">
       <QuestionInfoContainer />
-      <NewAnswerContainer />
+      {isAuth ? <NewAnswerContainer /> : <></>}
       <AnswersListContainer />
       <AnswerPaginationContainer />
     </main>

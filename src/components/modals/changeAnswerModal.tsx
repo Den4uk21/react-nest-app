@@ -1,9 +1,10 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Form, Input, Button } from 'antd'
 
 import { NewAnswerActions } from '../../redux/new-answer/actions'
 import './styles.sass'
+import { IRootReducer } from '../../redux/store/rootReducer'
 
 interface ChangeAnswerModalProps {
   answerId: string,
@@ -13,6 +14,8 @@ interface ChangeAnswerModalProps {
 
 export const ChangeAnswerModal: React.FC<ChangeAnswerModalProps> = ({ answerId, visible, setVisible }) => {
   const dispatch = useDispatch()
+  const previousChanges = useSelector((state: IRootReducer) => state.question_answer.answers.answersList)
+    .find((answer) => answer.id === answerId)
 
   const onFinish = (values: any) => {
     dispatch(NewAnswerActions.changeAnswer({ answerId, ...values }))
@@ -35,6 +38,7 @@ export const ChangeAnswerModal: React.FC<ChangeAnswerModalProps> = ({ answerId, 
         name="change_answer"
         className="change-answer-form"
         onFinish={onFinish}
+        initialValues={previousChanges ? previousChanges : undefined}
       >
 
         <div className="form-item">

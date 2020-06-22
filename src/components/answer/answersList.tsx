@@ -15,7 +15,7 @@ interface IAnswersListProps {
 
 export const AnswersList: React.FC<IAnswersListProps> = ({ answersList, updateRating, onIsAnswerClick, userNameQuestion }) => {
   const [visibleWarning, setVisibleWarning] = useState<boolean>(false)
-  const isAuth = localStorage.getItem('auth_tokens')
+  const isAuth = localStorage.auth_tokens
 
   const confirmedAnswersList = answersList.filter((answer) => answer.isAnswer === true)
   const notConfirmedAnswersList = answersList.filter((answer) => answer.isAnswer === false)

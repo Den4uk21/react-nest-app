@@ -25,18 +25,20 @@ export const SelectCategories: React.FC<ISelectCategoriesProps> = ({ onSearchCli
   }
 
   return (
-    <div className="select-categories">
-      <Select
-        mode="multiple"
-        placeholder="Select categories..."
-        onChange={onSelectChange}
-      >
-        {AllCategories.map((item, index) => (
-          <Option key={index} value={item}>{item}</Option>
-        ))}
-      </Select>
+    <div className="filter-select">
+      <div className="select-categories">
+        <Select
+          mode="multiple"
+          placeholder="Select categories..."
+          onChange={onSelectChange}
+        >
+          {AllCategories.map((item, index) => (
+            <Option key={index} value={item}>{item}</Option>
+          ))}
+        </Select>
 
-      <Button type="primary" shape="circle" icon={<SearchOutlined />} className="search-questions" onClick={onSelectCategories} />
+        <Button type="primary" shape="circle" icon={<SearchOutlined />} className="search-questions" onClick={onSelectCategories} />
+      </div>
     </div>
   )
 }

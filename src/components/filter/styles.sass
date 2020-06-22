@@ -14,14 +14,32 @@ section.filter-questions
       &::before
         background-color: #262626
 
-  .select-categories
-    border: 1px solid #262626
+  .filter-select
+    display: flex
 
-    .ant-select-selector
-      border: none
-      width: 220px
-      color: #262626
+    .select-categories
+      border: 1px solid #262626
 
-    button.search-questions
-      background-color: #262626
-      border: none
+      .ant-select-selector
+        border: none
+        width: 220px
+        color: #262626
+
+      button.search-questions
+        background-color: #262626
+        border: none
+
+@media only screen and (max-width: 768px)
+  section.filter-questions
+    flex-direction: column
+
+    .filter-select
+      margin-top: 10px
+
+      .select-categories
+        .ant-select-selector
+          width: 240px
+
+@media only screen and (max-width: 425px)
+  section.filter-questions
+    align-items: center

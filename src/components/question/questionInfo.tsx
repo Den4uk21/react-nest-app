@@ -13,7 +13,8 @@ export const QuestionInfo: React.FC<IQuestion> = ({ id, userName, avatarUrl, tit
   const [changeVisible, setChangeVisible] = useState<boolean>(false)
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
   
-  const isUser = userName === JSON.parse(localStorage.auth_tokens).userName
+  const isAuth = localStorage.auth_tokens
+  const isUser = isAuth ? userName === JSON.parse(isAuth).userName : false
 
   return (
     <section className="question-info">

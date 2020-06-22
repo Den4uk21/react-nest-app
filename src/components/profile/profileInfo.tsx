@@ -10,31 +10,33 @@ export const ProfileInfo: React.FC<IProfile> = ({ avatarUrl, userName, email, bi
         <img src={avatarUrl} alt="avatar" />
       </picture>
 
-      <h1 className="user-name">{userName}</h1>
+      <div className="info">
+        <h1 className="user-name">{userName}</h1>
 
-      <ul className="user-info">
-        <li className="email">
-          <span><b>Email:</b> {email}</span>
-        </li>
-        
-        {bio ? (
-          <li className="bio">
-            <b>Bio:</b>
-            <span>{bio}</span>
+        <ul className="user-info">
+          <li className="email">
+            <span><b>Email:</b> {email}</span>
           </li>
-        ): <></>}
+          
+          {bio ? (
+            <li className="bio">
+              <b>Bio:</b>
+              <span>{bio}</span>
+            </li>
+          ): <></>}
 
-        {motto ? (
-          <li className="motto">
-            <b>Motto:</b>
-            <span>{motto}</span>
+          {motto ? (
+            <li className="motto">
+              <b>Motto:</b>
+              <span>{motto}</span>
+            </li>
+          ): <></>}
+
+          <li className="status">
+            <span><b>Status:</b> {status}</span>
           </li>
-        ): <></>}
-
-        <li className="status">
-          <span><b>Status:</b> {status}</span>
-        </li>
-      </ul>
+        </ul>
+      </div>
     </section>
   )
 }

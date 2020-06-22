@@ -18,8 +18,9 @@ export const Answer: React.FC<IAnswerProps> = ({ id, userName, avatarUrl, answer
   const [changeVisible, setChangeVisible] = useState<boolean>(false)
   const [deleteVisible, setDeleteVisible] = useState<boolean>(false)
 
-  const isYourQuestion = userNameQuestion === JSON.parse(localStorage.auth_tokens).userName
-  const isUser = userName === JSON.parse(localStorage.auth_tokens).userName
+  const isAuth = localStorage.auth_tokens
+  const isYourQuestion = isAuth ? userNameQuestion === JSON.parse(isAuth).userName : false
+  const isUser = isAuth ? userName === JSON.parse(isAuth).userName : false
 
   return (
     <div className="answer">
