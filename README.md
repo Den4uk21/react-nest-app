@@ -28,6 +28,12 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+<b>Do not forget to change the database settings in the project!</b>
+
+To view emails sent, go to [Ethereal Email](https://ethereal.email/)  and log in with the login and password specified in the <b>.env.development</b> file.
+
+<b>Swagger UI</b>: `http://localhost:3001/api/`
+
 ## Installation
 
 ```bash

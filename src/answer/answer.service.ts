@@ -40,19 +40,19 @@ export class AnswerService {
 
     const { answers } = question
 
-    const withAnswersList = answers.filter((answer) => answer.isAnswer === true)
-    const noAnswersList = answers.filter((answer) => answer.isAnswer === false)
+    const confirmedAnswersList = answers.filter((answer) => answer.isAnswer === true)
+    const noConfirmedAnswersList = answers.filter((answer) => answer.isAnswer === false)
 
-    const withRatingList = noAnswersList
+    const withRatingList = noConfirmedAnswersList
       .filter((answer) => answer.rating.length > 0)
       .sort((a, b) => b.date - a.date)
       .sort((a, b) => b.rating.length - a.rating.length)
 
-    const noRatingList = noAnswersList
+    const noRatingList = noConfirmedAnswersList
       .filter((answer) => answer.rating.length === 0)
       .sort((a, b) => b.date - a.date)
 
-    const sortAnswers = [...withAnswersList, ...withRatingList, ...noRatingList]
+    const sortAnswers = [...confirmedAnswersList, ...withRatingList, ...noRatingList]
 
     const responseAnswers = await Promise.all(sortAnswers.map(async (answer) => {
       const { user } = await this.answersRepository.findOne(answer.id, { relations: ['user'] })

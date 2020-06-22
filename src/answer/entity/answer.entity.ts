@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm'
 import { User } from '../../user/entity/user.entity'
 import { Question } from '../../question/entity/question.entity'
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'
 import { statusEnum } from '../enums/status.enum'
 import { Question } from '../../question/entity/question.entity'

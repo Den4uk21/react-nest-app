@@ -5,8 +5,6 @@ import * as jwt from 'jsonwebtoken'
 import { UserService } from '../user/user.service'
 import { MailService } from '../mail/mail.service'
 
-import { User } from '../user/entity/user.entity'
-
 import { CreateUserDto } from '../user/dto/create-user.dto'
 import { CheckUserDto } from '../user/dto/check-user.dto'
 

@@ -1,6 +1,6 @@
 {
   "name": "nest-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "author": "",
   "private": true,
@@ -33,6 +33,7 @@
     "class-transformer": "^0.2.3",
     "class-validator": "^0.12.2",
     "cloudinary": "^1.21.0",
+    "helmet": "^3.23.1",
     "jsonwebtoken": "^8.5.1",
     "nodemailer": "^6.4.6",
     "passport": "^0.4.1",

@@ -41,7 +41,9 @@ export class QuestionService {
     if(!user) throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
     
     const questions = await this.questionsRepository.find({ where: { user: user.id }, relations: ['answers'] })
-    const filteredQuestions = questions.filter((question) => question.answers.length === 0)
+    const filteredQuestions = questions
+      .filter((question) => question.answers.length === 0)
+      .sort((a, b) => b.date - a.date)
 
     const validQuestions = this.paginationPages(page, filteredQuestions)
     return {
@@ -55,7 +57,10 @@ export class QuestionService {
     if(!user) throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
 
     const questions = await this.questionsRepository.find({ where: { user: user.id }, relations: ['answers'] })
-    const filteredQuestions = questions.filter((question) => question.answers.length !== 0)
+    const filteredQuestions = questions
+      .filter((question) => question.answers.length !== 0)
+      .sort((a, b) => b.date - a.date)
+      .sort((a, b) => b.answers.length - a.answers.length)
 
     const validQuestions = this.paginationPages(page, filteredQuestions)
     return {
