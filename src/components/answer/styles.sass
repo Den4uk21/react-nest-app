@@ -1,3 +1,7 @@
+@import '../../styles/_variables.sass'
+@import '../../styles/_mixins.sass'
+@import '../../styles/_templates.sass'
+  
 section.answers-list
   padding: 10px 0 0 5px
 
@@ -5,7 +9,7 @@ section.answers-list
     margin: 0
 
   hr
-    border-color: #434343
+    border-color: $grey
     margin: 0
     width: 78vw
 
@@ -28,14 +32,13 @@ section.answers-list
     width: 70vw
     padding: 5px 10px 5px 10px
     border-radius: 10px
-    border: 1px solid #262626
     display: flex
-    color: #434343
+    color: $grey
+    @extend %main-border
 
     .status-block
-      display: flex
+      +flex-align(none, center)
       flex-direction: column
-      align-items: center
 
       .is-answer
         &.icon
@@ -44,7 +47,7 @@ section.answers-list
           svg
             width: 40px
             height: 40px
-            color: #52c41a
+            color: $success
 
         &.btn
           margin-top: 10px
@@ -68,29 +71,26 @@ section.answers-list
           margin: 0
 
     .settings-block
-      display: flex
+      +flex-align(none, center)
       flex-direction: column
-      align-items: center
       margin-left: 10px
 
       .rating
-        display: flex
+        +flex-align(center, center)
         flex-direction: column
-        justify-content: center
-        align-items: center
 
         .amount
           width: 50px
           text-align: center
-          border: 1px solid #262626
           margin-bottom: 5px
           border-radius: 5px
+          @extend %main-border
 
         button
           padding: 2px
-          border: 1px solid #262626
-          color: #262626
+          color: $dark
           border-radius: 5px
+          @extend %main-border
 
       .answer-settings
         cursor: pointer
@@ -102,9 +102,9 @@ section.answers-list
 
 section.new-answer
   button
-    background-color: #262626
-    color: #ffffff
-    border: 1px solid #262626
+    background-color: $dark
+    color: $white
+    @extend %main-border
 
 @media only screen and (max-width: 580px)
   section.answers-list

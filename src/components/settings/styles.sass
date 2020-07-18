@@ -1,3 +1,6 @@
+@import '../../styles/_variables.sass'
+@import '../../styles/_templates.sass'
+
 aside.settings-sidebar
   padding-right: 15px
 
@@ -5,20 +8,20 @@ aside.settings-sidebar
     display: flex
     flex-direction: column
     border-radius: 5px
-    background-color: #262626
+    background-color: $dark
     padding: 5px 5px 10px 5px
 
     a
       padding: 8px 10px
       font-size: 18px
-      color: #ffffff
+      color: $white
       width: 150px
 
       &:hover
-        color: #1890ff
+        color: $blue
 
       &.active
-        color: #1890ff
+        color: $blue
 
 section.settings
   width: 100%
@@ -28,7 +31,7 @@ section.settings
     font-size: 24px
 
   hr
-    border-color: #434343
+    border-color: $grey
 
   .info
     font-size: 16px
@@ -45,8 +48,8 @@ section.settings
       margin-left: 20px
 
   button
-    border: 1px solid #262626
-    color: #262626
+    color: $dark
+    @extend %main-border
 
 @media only screen and (max-width: 425px)
   aside.settings-sidebar

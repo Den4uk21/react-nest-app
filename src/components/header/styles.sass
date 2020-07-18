@@ -1,25 +1,26 @@
+@import '../../styles/_variables.sass'
+@import '../../styles/_mixins.sass'
+
 header
-  display: flex
-  align-items: center
-  justify-content: space-between
-  background-color: #262626
-  color: #ffffff
+  +flex-align(space-between, center)
+  background-color: $dark
+  color: $white
   padding: 5px
 
   h2.title
     margin: 0
 
     a
-      color: #ffffff
+      color: $white
 
   nav.nav-links
     button
-      background-color: #262626 
-      color: #ffffff
+      background-color: $dark
+      color: $white
       margin-left: 10px
 
       a.active
-        color: #1890ff
+        color: $blue
 
 @media only screen and (max-width: 580px)
   header
@@ -33,7 +34,6 @@ header
 
 @media only screen and (max-width: 425px)
   header
-
     nav.nav-links
       button.ant-btn
         padding: 0 5px 0 5px

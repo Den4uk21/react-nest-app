@@ -1,14 +1,16 @@
+@import '../../styles/_variables.sass'
+@import '../../styles/_mixins.sass'
+@import '../../styles/_templates.sass'
+
 .router-lazy-spin
   width: 100vw
   height: 80vh
-  display: flex
-  justify-content: center
-  align-items: center
+  +flex-align(center, center)
 
 .status-alert
   margin-bottom: 10px
 
   button
-    border: 1px solid #262626
-    color: #262626
+    color: $dark
     margin-top: 5px
+    @extend %main-border

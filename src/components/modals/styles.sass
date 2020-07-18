@@ -1,3 +1,5 @@
+@import '../../styles/_mixins.sass'
+
 .avatar-modal
   img.avatar-img
     margin-bottom: 15px
@@ -5,8 +7,7 @@
     width: 150px
 
 .avatar-uploader
-  display: flex
-  justify-content: center
+  +flex-align(center, none)
 
   .ant-upload, .upload-img
     width: 180px

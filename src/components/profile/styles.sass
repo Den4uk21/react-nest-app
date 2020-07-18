@@ -1,3 +1,5 @@
+@import '../../styles/_mixins.sass'
+
 section.profile-info
   picture.user-avatar
     padding-right: 20px
@@ -46,8 +48,7 @@ section.profile-info
 
 @media only screen and (max-width: 600px)
   section.profile-info
-    display: flex
-    justify-content: space-around
+    +flex-align(space-around, none)
 
   .profile-questions
     width: 100%

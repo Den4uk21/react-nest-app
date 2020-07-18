@@ -1,32 +1,35 @@
+@import '../../styles/_variables.sass'
+@import '../../styles/_mixins.sass'
+@import '../../styles/_templates.sass'
+
 section.filter-questions
-  display: flex
-  justify-content: space-between
-  padding: 10px 0 10px 0
+  +flex-align(space-between, none)
+  margin: 10px 0 10px 0
  
   .filter-params
     label.ant-radio-button-wrapper
-      border: 1px solid #262626
+      @extend %main-border
 
     .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)
-      background-color: #262626
-      border-color: #262626
+      background-color: $dark
+      border-color: $dark
 
       &::before
-        background-color: #262626
+        background-color: $dark
 
   .filter-select
     display: flex
 
     .select-categories
-      border: 1px solid #262626
+      @extend %main-border
 
       .ant-select-selector
         border: none
         width: 220px
-        color: #262626
+        color: $dark
 
       button.search-questions
-        background-color: #262626
+        background-color: $dark
         border: none
 
 @media only screen and (max-width: 768px)

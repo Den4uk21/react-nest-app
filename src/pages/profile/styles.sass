@@ -1,13 +1,14 @@
+@import '../../styles/_mixins.sass'
+
 main.profile-page
-  padding: 10px 0 0 15px
-  display: flex
-  justify-content: space-between
+  +flex-align(space-between, none)
+  margin: 10px 0 0 15px
 
 @media only screen and (max-width: 600px)
   main.profile-page
-    padding: 10px 10px 0 10px
+    margin: 10px 10px 0 10px
     flex-direction: column
 
 @media only screen and (max-width: 375px)
   main.profile-page
-    padding: 10px 0 0 0
+    margin: 10px 0 0 0
