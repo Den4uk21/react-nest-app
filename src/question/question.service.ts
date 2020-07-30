@@ -89,13 +89,14 @@ export class QuestionService {
   }
 
   async getQuestion(questionId: string): Promise<IGetQuestion> {
-    const { user, ...question } = await this.questionsRepository.findOne(questionId, { relations: ['user'] })
+    const question = await this.questionsRepository.findOne(questionId, { relations: ['user'] })
     if(!question) throw new HttpException('Question not found!', HttpStatus.NOT_FOUND)
 
+    const { user, ...questionInfo } = question
     const date = this.userService.getDate(Number(question.date))
 
     return {
-      ...question,
+      ...questionInfo,
       date,
       userName: user.userName,
       avatarUrl: this.userService.getAvatar(user.avatarId)
